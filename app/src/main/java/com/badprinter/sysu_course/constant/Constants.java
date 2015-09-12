@@ -7,4 +7,5 @@ public class Constants {
     public static String JSESSIONID = "";
     public static String STUDENT_ID = "";
     public static String PASSWORD = "";
+    public static String SID = "";
 }

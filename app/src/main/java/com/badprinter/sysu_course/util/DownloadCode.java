@@ -89,6 +89,7 @@ public class DownloadCode extends AsyncTask<ImageView, Void, Bitmap> {
         urlConn.setConnectTimeout(5000 /* milliseconds */);
         urlConn.setDoInput(true);
     }
+
     private Bitmap getCodeImgFromStream(InputStream is) {
         return BitmapFactory.decodeStream(is);
     }

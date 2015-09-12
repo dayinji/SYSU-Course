@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="lanse">#ff5cd4ff</color>
+    <color name="lanse">#ff54bbe4</color>
+    <color name="shenlan">#ff397e98</color>
+    <color name="qianbai">#fff8f8f8</color>
 
 </resources>

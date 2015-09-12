@@ -2,27 +2,28 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Main"
-    android:background="@color/lanse">
+    android:background="@color/qianbai">
 
 
     <EditText
+        android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="Name"
         android:ems="10"
-        android:id="@+id/username"
+        android:hint="学号"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="99dp" />
 
     <EditText
+        android:id="@+id/password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:ems="10"
-        android:id="@+id/password"
-        android:layout_marginTop="20dp"
+        android:hint="密码"
+        android:layout_marginTop="10dp"
         android:layout_below="@+id/username"
         android:layout_alignLeft="@+id/username"
         android:layout_alignStart="@+id/username" />
@@ -30,30 +31,32 @@
     <ImageView
         android:id="@+id/codeImg"
         android:layout_below="@+id/password"
-        android:layout_marginTop="20dp"
-        android:layout_width="60dp"
-        android:layout_height="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
         android:background="#ffffffff"
-        android:layout_centerHorizontal="true"/>
+        android:layout_alignLeft="@id/password"/>
+    <EditText
+        android:id="@+id/code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/codeImg"
+        android:layout_alignRight="@id/password"
+        android:layout_alignBottom="@id/codeImg"
+        android:layout_marginLeft="10dp"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
+        android:text="Login"
         android:id="@+id/okBt"
+        android:background="@drawable/round_bt"
         android:layout_below="@+id/codeImg"
         android:layout_marginTop="20dp"
+        android:textColor="@color/qianbai"
+        android:padding="10dp"
         android:layout_centerHorizontal="true" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/result"
-        android:layout_below="@+id/okBt"
-        android:layout_marginTop="20dp"
-        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>
