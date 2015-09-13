@@ -6,7 +6,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
 
-import com.badprinter.sysu_course.constant.Constants;
+import com.badprinter.sysu_course.Common.GlobalData;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -50,14 +50,14 @@ public class DownloadCode extends AsyncTask<ImageView, Void, Bitmap> {
                     Log.e(TAG, "cookie : " + cookie);
                     cookie = cookie.substring(0, cookie.indexOf(";"));
                     // Save JSESSIONID
-                    Constants.JSESSIONID = cookie.substring(cookie.indexOf("=") + 1, cookie.length());
+                    GlobalData.JSESSIONID = cookie.substring(cookie.indexOf("=") + 1, cookie.length());
                 }
             }
-            if (!Constants.JSESSIONID.equals("")) {
+            if (!GlobalData.JSESSIONID.equals("")) {
                 URL mycodeUrl = new URL(codeUrl);
                 HttpURLConnection codeUrlConn = (HttpURLConnection)mycodeUrl.openConnection();
                 setHeader(codeUrlConn);
-                codeUrlConn.setRequestProperty("Cookie", "JSESSIONID=" + Constants.JSESSIONID);
+                codeUrlConn.setRequestProperty("Cookie", "JSESSIONID=" + GlobalData.JSESSIONID);
                 codeUrlConn.setRequestMethod("GET");
                 // Start the query
                 codeUrlConn.connect();

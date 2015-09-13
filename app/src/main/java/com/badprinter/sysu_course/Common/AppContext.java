@@ -1,4 +1,4 @@
-package com.badprinter.sysu_course.constant;
+package com.badprinter.sysu_course.Common;
 
 /**
  * Created by root on 15-9-12.

@@ -18,10 +18,13 @@ import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.badprinter.sysu_course.Constant.Constants;
 import com.badprinter.sysu_course.R;
 import com.badprinter.sysu_course.adapter.CourseAdapter;
 import com.badprinter.sysu_course.model.Course;
 import com.badprinter.sysu_course.model.CourseState;
+import com.badprinter.sysu_course.util.ElectCourse;
+import com.badprinter.sysu_course.util.UnelectCourse;
 
 import java.util.List;
 
@@ -45,6 +48,9 @@ public class CourseList extends Fragment {
     private String cata;
     private List<Course> courseList;
     private CourseAdapter adapter;
+    private SweetAlertDialog dialog;
+    private ElectCourse electCourse;
+    private UnelectCourse unelectCourse;
 
     private ValueAnimator cdAnim;
 
@@ -68,86 +74,7 @@ public class CourseList extends Fragment {
         findViewsById();
 
         initPtr();
-        adapter = new CourseAdapter(courseList);
-        adapter.onClickBt = new CourseAdapter.OnClickBt() {
-            @Override
-            public void onClickBt(int postion) {
-                final Course c = courseList.get(postion);
-                switch(c.getState()) {
-                    case CANNOTUNSELECT:
-                        break;
-                    case CANNOTSELECT:
-                        break;
-                    case CANSELECT:
-                        new SweetAlertDialog(getActivity())
-                                .setTitleText("选课")
-                                .setContentText("确定要选择" + c.getName() + "这门课吗")
-                                .setConfirmText("是的")
-                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
-                                        sDialog
-                                                .setTitleText("选课成功!")
-                                                .setContentText("你已经选择了" + c.getName() + "这门课")
-                                                .setConfirmText("OK")
-                                                .setConfirmClickListener(null)
-                                                .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-                                    }
-                                })
-                                .setCancelText("取消")
-                                .showCancelButton(true)
-                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
-                                        sDialog.cancel();
-                                    }
-                                })
-                                .show();
-                        break;
-                    case SELECTED:
-
-                        break;
-                    case SUCCEED:
-
-                        break;
-                }
-            }
-        };
-        courseListView.setAdapter(adapter);
-
-        courseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Course c = courseList.get(position);
-                String state = "";
-                switch(c.getState()) {
-                    case CANNOTSELECT:
-                        state = "不可选";
-                        break;
-                    case CANSELECT:
-                        state = "可选";
-                        break;
-                    case SELECTED:
-                        state = "带筛选";
-                        break;
-                    case SUCCEED:
-                        state = "选课成功";
-                        break;
-                }
-                String detail = "状态: " + state + "\n" +
-                        "教师: " + c.getTeacher() + "\n" +
-                        "学分: " + c.getCredit() + "\n" +
-                        "课容量: " + c.getAllNum() + "\n" +
-                        "待筛选: " + c.getCandidateNum() + "\n" +
-                        "空位: " + c.getVacancyNum() + "\n" +
-                        "选中率: " + c.getRate() + "\n" +
-                        "时间地点: " + c.getTimePlace();
-                new SweetAlertDialog(getActivity())
-                        .setTitleText(c.getName())
-                        .setContentText(detail)
-                        .show();
-            }
-        });
+        updateListView(courseList);
 
 
         return root;
@@ -159,18 +86,80 @@ public class CourseList extends Fragment {
         courseListView = (ListView)root.findViewById(R.id.courseList);
         ptrFrame = (PtrFrameLayout)root.findViewById(R.id.ptrFrame);
     }
+    private void initElectCourse(ElectCourse electCourse) {
+        electCourse.onSelected = new ElectCourse.OnSelected() {
+            @Override
+            public void onFinished(Integer code) {
+                Log.e(TAG, "finished, code = " + code);
+                if (code == 0) {
+                    dialog.setTitleText("选课成功!")
+                            .setContentText("你已经成功选择这门课")
+                            .setConfirmText("OK")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    dialog.cancel();
+                                }
+                            })
+                            .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                } else {
+                    dialog.setTitleText("选课失败!")
+                            .setContentText(Constants.ERROR_MSG[code])
+                            .setConfirmText("OK")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    dialog.cancel();
+                                }
+                            })
+                            .changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                }
+            }
+        };
+    }
+    private void initUnelectCourse(UnelectCourse unelectCourse) {
+        unelectCourse.onSelected = new UnelectCourse.OnSelected() {
+            @Override
+            public void onFinished(Integer code) {
+                Log.e(TAG, "finished, code = " + code);
+                if (code == 0) {
+                    dialog.setTitleText("退课成功!")
+                            .setContentText("你已经成功退了这门课")
+                            .setConfirmText("OK")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    dialog.cancel();
+                                }
+                            })
+                            .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                } else {
+                    dialog.setTitleText("退课失败!")
+                            .setContentText(Constants.ERROR_MSG[code])
+                            .setConfirmText("OK")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    dialog.cancel();
+                                }
+                            })
+                            .changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                }
+            }
+        };
+    }
 
     private void initPtr() {
         ptrFrame.setPtrHandler(new PtrHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
-                //countAdapter.updateCount();
+                ((com.badprinter.sysu_course.activity.Course)getActivity()).updateCourseInfo();
                 frame.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         ptrFrame.refreshComplete();
                     }
-                }, 1000);
+                }, 3000);
             }
 
             @Override
@@ -249,6 +238,129 @@ public class CourseList extends Fragment {
     public void setList(List<Course> list) {
         this.courseList = list;
     }
+    private void showSelectDialog(final Course c) {
+        Log.e(TAG, "bid = " + c.getBid());
+        if (dialog != null && dialog.isShowing())
+            dialog.cancel();
+        dialog = new SweetAlertDialog(getActivity());
+        dialog.setTitleText("选课")
+                .setContentText("确定要选择" + c.getName() + "这门课吗")
+                .setConfirmText("是的")
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        sDialog
+                                .setTitleText("选课ing...")
+                                .setContentText("")
+                                .changeAlertType(SweetAlertDialog.PROGRESS_TYPE);
+                        if (electCourse != null && !electCourse.isCancelled())
+                            electCourse.cancel(true);
+                        electCourse = new ElectCourse();
+                        initElectCourse(electCourse);
+                        electCourse.execute(c.getBid(), cata);
+                    }
+                })
+                .setCancelText("取消")
+                .showCancelButton(true)
+                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        sDialog.cancel();
+                    }
+                })
+                .show();
+    }
+    private void showUnselectDialog(final Course c) {
+        Log.e(TAG, "bid = " + c.getBid());
+        if (dialog != null && dialog.isShowing())
+            dialog.cancel();
+        dialog = new SweetAlertDialog(getActivity());
+        dialog.setTitleText("退课")
+                .setContentText("确定要退掉" + c.getName() + "这门课吗")
+                .setConfirmText("是的")
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        sDialog
+                                .setTitleText("退课ing...")
+                                .setContentText("")
+                                .changeAlertType(SweetAlertDialog.PROGRESS_TYPE);
+                        if (unelectCourse != null && !unelectCourse.isCancelled())
+                            unelectCourse.cancel(true);
+                        unelectCourse = new UnelectCourse();
+                        initUnelectCourse(unelectCourse);
+                        unelectCourse.execute(c.getBid(), cata);
+                    }
+                })
+                .setCancelText("取消")
+                .showCancelButton(true)
+                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        sDialog.cancel();
+                    }
+                })
+                .show();
+    }
+    public void updateListView(final List<Course> courseList) {
+        this.courseList = courseList;
+        adapter = new CourseAdapter(courseList);
+        adapter.onClickBt = new CourseAdapter.OnClickBt() {
+            @Override
+            public void onClickBt(int postion) {
+                final Course c = courseList.get(postion);
+                switch(c.getState()) {
+                    case CANNOTUNSELECT:
+                        break;
+                    case CANNOTSELECT:
+                        break;
+                    case CANSELECT:
+                        showSelectDialog(c);
+                        break;
+                    case SELECTED:
+                        showUnselectDialog(c);
+                        break;
+                    case SUCCEED:
+                        showUnselectDialog(c);
+                        break;
+                }
+            }
+        };
+        courseListView.setAdapter(adapter);
 
+        courseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Course c = courseList.get(position);
+                String state = "";
+                switch (c.getState()) {
+                    case CANNOTSELECT:
+                        state = "不可选";
+                        break;
+                    case CANSELECT:
+                        state = "可选";
+                        break;
+                    case SELECTED:
+                        state = "带筛选";
+                        break;
+                    case SUCCEED:
+                        state = "选课成功";
+                        break;
+                }
+                String detail = "状态: " + state + "\n" +
+                        "教师: " + c.getTeacher() + "\n" +
+                        "学分: " + c.getCredit() + "\n" +
+                        "课容量: " + c.getAllNum() + "\n" +
+                        "待筛选: " + c.getCandidateNum() + "\n" +
+                        "空位: " + c.getVacancyNum() + "\n" +
+                        "选中率: " + c.getRate() + "\n" +
+                        "时间地点: " + c.getTimePlace();
+                new SweetAlertDialog(getActivity())
+                        .setTitleText(c.getName())
+                        .setContentText(detail)
+                        .show();
+            }
+        });
+    }
 
 }

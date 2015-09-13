@@ -162,4 +162,24 @@ public class Course extends SwipeBackActivity {
             return;
         }
     }
+    public void updateCourseInfo() {
+        if (courseInfo != null && !courseInfo.isCancelled())
+            courseInfo.cancel(true);
+        courseInfo = new CourseInfo();
+        courseInfo.onGetCourseInfo = new CourseInfo.OnGetCourseInfo() {
+            @Override
+            public void onSucceed(List<com.badprinter.sysu_course.model.Course> myCourseList, List<com.badprinter.sysu_course.model.Course> otherCourseList) {
+                Course.this.myCourseList = myCourseList;
+                Course.this.otherCourseList = otherCourseList;
+                myCourseFragment.updateListView(myCourseList);
+                otherCourseFragment.updateListView(otherCourseList);
+            }
+
+            @Override
+            public void onFailed() {
+                Toast.makeText(Course.this, "加载数据失败", Toast.LENGTH_SHORT);
+            }
+        };
+        courseInfo.execute(url);
+    }
 }

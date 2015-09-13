@@ -4,6 +4,7 @@ package com.badprinter.sysu_course.model;
  * Created by root on 15-9-12.
  */
 public class Course {
+    private String bid;
     private String name;
     private String teacher;
     private String timePlace;
@@ -14,9 +15,11 @@ public class Course {
     private String rate;
     private CourseState state;
 
-    public Course(String name, String teacher, String timePlace,
+    public Course(String bid, String name, String teacher, String timePlace,
                   String credit, String allNum, String candidateNum,
                   String vacancyNum, String rate, CourseState state) {
+
+        this.bid = bid;
         this.name = name;
         this.teacher = teacher;
         this.timePlace = timePlace;
@@ -26,9 +29,17 @@ public class Course {
         this.vacancyNum = vacancyNum;
         this.rate = rate;
         this.state = state;
+
     }
     public Course() {
 
+    }
+
+    public String getBid() {
+        return bid;
+    }
+    public void setBid(String bid) {
+        this.bid = bid;
     }
 
     public String getName() {

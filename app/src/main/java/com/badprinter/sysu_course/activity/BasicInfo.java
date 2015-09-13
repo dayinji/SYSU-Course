@@ -9,8 +9,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.badprinter.sysu_course.Common.GlobalData;
 import com.badprinter.sysu_course.R;
-import com.badprinter.sysu_course.constant.Constants;
 import com.badprinter.sysu_course.util.CourseSummary;
 
 import java.util.Map;
@@ -44,10 +44,10 @@ public class BasicInfo extends ActionBarActivity implements View.OnClickListener
                 zhuanxuanText.setText("专选 / 已选" + data.get("zhuanxuanmenshu") + " / 已选学分" + data.get("zhuanxuanxuefen"));
                 gongbiText.setText("公必 / 已选" + data.get("gongbimenshu") + " / 已选学分" + data.get("gongbixuefen"));
                 zhuanbiText.setText("专必 / 已选" + data.get("zhuanbimenshu") + " / 已选学分" + data.get("zhuanbixuefen"));
-                Log.e(TAG, Constants.gongxuanUrl);
-                Log.e(TAG, Constants.zhuanxuanUrl);
-                Log.e(TAG, Constants.gongbiUrl);
-                Log.e(TAG, Constants.zhuanbiUrl);
+                Log.e(TAG, GlobalData.gongxuanUrl);
+                Log.e(TAG, GlobalData.zhuanxuanUrl);
+                Log.e(TAG, GlobalData.gongbiUrl);
+                Log.e(TAG, GlobalData.zhuanbiUrl);
             }
 
             @Override
@@ -78,16 +78,16 @@ public class BasicInfo extends ActionBarActivity implements View.OnClickListener
         String url = "http://uems.sysu.edu.cn/elect/s/";
         switch (view.getId()) {
             case R.id.gongxuanBt:
-                turnTo(url+ Constants.gongxuanUrl, "公选");
+                turnTo(url+ GlobalData.gongxuanUrl, "公选");
                 break;
             case R.id.zhuanxuanBt:
-                turnTo(url+ Constants.zhuanxuanUrl, "专选");
+                turnTo(url+ GlobalData.zhuanxuanUrl, "专选");
                 break;
             case R.id.gongbiBt:
-                turnTo(url+ Constants.gongbiUrl, "公必");
+                turnTo(url+ GlobalData.gongbiUrl, "公必");
                 break;
             case R.id.zhuanbiBt:
-                turnTo(url+ Constants.zhuanbiUrl, "专必");
+                turnTo(url+ GlobalData.zhuanbiUrl, "专必");
                 break;
         }
     }

@@ -1,23 +1,14 @@
 package com.badprinter.sysu_course.adapter;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ValueAnimator;
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.badprinter.sysu_course.R;
-import com.badprinter.sysu_course.constant.AppContext;
+import com.badprinter.sysu_course.Common.AppContext;
 import com.badprinter.sysu_course.model.Course;
 
 import java.util.List;

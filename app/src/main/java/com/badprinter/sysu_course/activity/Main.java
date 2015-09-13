@@ -1,13 +1,8 @@
 package com.badprinter.sysu_course.activity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
@@ -15,20 +10,12 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.badprinter.sysu_course.R;
-import com.badprinter.sysu_course.constant.Constants;
+import com.badprinter.sysu_course.Common.GlobalData;
 import com.badprinter.sysu_course.util.DownloadCode;
 import com.badprinter.sysu_course.util.Login;
-import com.beardedhen.androidbootstrap.BootstrapButton;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
 
 
 public class Main extends ActionBarActivity {
@@ -112,8 +99,8 @@ public class Main extends ActionBarActivity {
             }
         };
         String un = username.getText().toString();
-        Constants.PASSWORD = pw;
-        Constants.STUDENT_ID = un;
+        GlobalData.PASSWORD = pw;
+        GlobalData.STUDENT_ID = un;
         String j_code = code.getText().toString();
         login.execute(j_code);
     }

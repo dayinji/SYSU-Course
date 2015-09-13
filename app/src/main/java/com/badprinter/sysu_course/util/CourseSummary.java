@@ -1,9 +1,8 @@
 package com.badprinter.sysu_course.util;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
-import com.badprinter.sysu_course.constant.Constants;
+import com.badprinter.sysu_course.Common.GlobalData;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -25,21 +24,21 @@ public class CourseSummary extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected Boolean doInBackground(Void... urls) {
-        Connection conn2 = Jsoup.connect("http://uems.sysu.edu.cn/elect/s/types?sid=" + Constants.SID);
+        Connection conn2 = Jsoup.connect("http://uems.sysu.edu.cn/elect/s/types?sid=" + GlobalData.SID);
         setHeader(conn2);
         try {
             Document doc = conn2.get();
             Elements eles = doc.getElementsByTag("a");
             for (Element ele : eles) {
                 if (ele.text().equals("公选")) {
-                    Constants.gongxuanUrl = ele.attr("href");
+                    GlobalData.gongxuanUrl = ele.attr("href");
                     Element numEle = ele.parent().nextElementSibling();
                     data.put("gongxuanmenshu", numEle.text());
                     Element gradeEle = numEle.nextElementSibling();
                     data.put("gongxuanxuefen", gradeEle.text());
                 }
                 else if (ele.text().equals("专选")) {
-                    Constants.zhuanxuanUrl = ele.attr("href");
+                    GlobalData.zhuanxuanUrl = ele.attr("href");
                     Element numEle = ele.parent().nextElementSibling();
                     data.put("zhuanxuanmenshu", numEle.text());
                     Element gradeEle = numEle.nextElementSibling();
@@ -47,7 +46,7 @@ public class CourseSummary extends AsyncTask<Void, Void, Boolean> {
 
                 }
                 else if (ele.text().equals("公必")) {
-                    Constants.gongbiUrl = ele.attr("href");
+                    GlobalData.gongbiUrl = ele.attr("href");
                     Element numEle = ele.parent().nextElementSibling();
                     data.put("gongbimenshu", numEle.text());
                     Element gradeEle = numEle.nextElementSibling();
@@ -55,7 +54,7 @@ public class CourseSummary extends AsyncTask<Void, Void, Boolean> {
 
                 }
                 else if (ele.text().equals("专必")) {
-                    Constants.zhuanbiUrl = ele.attr("href");
+                    GlobalData.zhuanbiUrl = ele.attr("href");
 
                     Element numEle = ele.parent().nextElementSibling();
                     data.put("zhuanbimenshu", numEle.text());
@@ -87,7 +86,7 @@ public class CourseSummary extends AsyncTask<Void, Void, Boolean> {
                 .header("Content-Type", "application/x-www-form-urlencoded")
                 .header("Host", "uems.sysu.edu.cn")
                 .header("Upgrade-Insecure-Requests", "1")
-                .header("Cookie", "JSESSIONID=" + Constants.JSESSIONID)
+                .header("Cookie", "JSESSIONID=" + GlobalData.JSESSIONID)
                 .header("Origin", "http://uems.sysu.edu.cn")
                 .header("User-Agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.107 Safari/537.36")
                 .header("Referer", "http://uems.sysu.edu.cn/elect/index.html");

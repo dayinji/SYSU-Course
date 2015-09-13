@@ -3,7 +3,7 @@ package com.badprinter.sysu_course.util;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.badprinter.sysu_course.constant.Constants;
+import com.badprinter.sysu_course.Common.GlobalData;
 import com.badprinter.sysu_course.model.Course;
 import com.badprinter.sysu_course.model.CourseState;
 
@@ -16,7 +16,8 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by root on 15-9-12.
@@ -74,7 +75,7 @@ public class CourseInfo extends AsyncTask<String, Void, Boolean> {
                 .header("Content-Type", "application/x-www-form-urlencoded")
                 .header("Host", "uems.sysu.edu.cn")
                 .header("Upgrade-Insecure-Requests", "1")
-                .header("Cookie", "JSESSIONID=" + Constants.JSESSIONID)
+                .header("Cookie", "JSESSIONID=" + GlobalData.JSESSIONID)
                 .header("Origin", "http://uems.sysu.edu.cn")
                 .header("User-Agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.107 Safari/537.36")
                 .header("Referer", "http://uems.sysu.edu.cn/elect/index.html");
@@ -97,6 +98,15 @@ public class CourseInfo extends AsyncTask<String, Void, Boolean> {
             } else if (tds.get(1).text().equals("待筛选")) {
                 c.setState(CourseState.SELECTED);
             }
+            String str = tds.get(2).getElementsByTag("a").get(0).attr("onclick");
+            String bid = "";
+            Pattern p=Pattern.compile("'\\d*'");
+            Matcher m=p.matcher(str);
+            while(m.find()) {
+                bid = str.substring(m.start()+1, m.end()-1);
+                break;
+            }
+            c.setBid(bid);
             c.setName(tds.get(2).getElementsByTag("a").get(0).text());
             c.setTimePlace(tds.get(3).text());
             c.setTeacher(tds.get(4).text());
@@ -120,6 +130,15 @@ public class CourseInfo extends AsyncTask<String, Void, Boolean> {
             } else {
                 c.setState(CourseState.CANNOTSELECT);
             }
+            String str = tds.get(1).getElementsByTag("a").get(0).attr("onclick");
+            String bid = "";
+            Pattern p=Pattern.compile("'\\d*'");
+            Matcher m=p.matcher(str);
+            while(m.find()) {
+                bid = str.substring(m.start()+1, m.end()-1);
+                break;
+            }
+            c.setBid(bid);
             c.setName(tds.get(1).getElementsByTag("a").get(0).text());
             c.setTimePlace(tds.get(2).text());
             c.setTeacher(tds.get(3).text());

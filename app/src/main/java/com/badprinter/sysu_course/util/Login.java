@@ -1,20 +1,12 @@
 package com.badprinter.sysu_course.util;
 
-import android.content.IntentFilter;
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.badprinter.sysu_course.constant.AppContext;
-import com.badprinter.sysu_course.constant.Constants;
+import com.badprinter.sysu_course.Common.GlobalData;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -32,7 +24,7 @@ public class Login extends AsyncTask<String, Void, Boolean> {
     protected Boolean doInBackground(String... urls) {
         String j_code = urls[0];
         Connection conn = Jsoup.connect(loginUrl);
-        //conn.cookie("JSESSIONID", Constants.JSESSIONID);
+        //conn.cookie("JSESSIONID", GlobalData.JSESSIONID);
         conn.data(getData(j_code));
         setHeader(conn);
         // No Redirection
@@ -41,7 +33,7 @@ public class Login extends AsyncTask<String, Void, Boolean> {
             conn.post();
             org.jsoup.Connection.Response rs = conn.response();
             if (rs.header("Location") != null) {
-                Constants.SID = rs.header("Location").replace("http://uems.sysu.edu.cn/elect/s/types?sid=", "");
+                GlobalData.SID = rs.header("Location").replace("http://uems.sysu.edu.cn/elect/s/types?sid=", "");
 
                 return true;
             }
@@ -64,8 +56,8 @@ public class Login extends AsyncTask<String, Void, Boolean> {
 
     private Map<String, String> getData(String j_code) {
         Map<String, String> data = new HashMap<>();
-        data.put("username", Constants.STUDENT_ID);
-        data.put("password", Constants.PASSWORD);
+        data.put("username", GlobalData.STUDENT_ID);
+        data.put("password", GlobalData.PASSWORD);
         data.put("j_code", j_code);
         data.put("lt", "");
         data.put("_eventId", "submit");
@@ -85,7 +77,7 @@ public class Login extends AsyncTask<String, Void, Boolean> {
                 .header("Content-Type", "application/x-www-form-urlencoded")
                 .header("Host", "uems.sysu.edu.cn")
                 .header("Upgrade-Insecure-Requests", "1")
-                .header("Cookie", "JSESSIONID=" + Constants.JSESSIONID)
+                .header("Cookie", "JSESSIONID=" + GlobalData.JSESSIONID)
                 .header("Origin", "http://uems.sysu.edu.cn")
                 .header("User-Agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.107 Safari/537.36")
                 .header("Referer", "http://uems.sysu.edu.cn/elect/index.html");
