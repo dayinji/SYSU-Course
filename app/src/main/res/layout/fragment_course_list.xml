@@ -1,63 +1,42 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:pinyin="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.badprinter.sysu_course.fragment.CourseList">
 
-    <in.srain.cube.views.ptr.PtrFrameLayout
-        android:id="@+id/ptrFrame"
-        xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-
-        cube_ptr:ptr_resistance="2.5"
-        cube_ptr:ptr_ratio_of_header_height_to_refresh="0.6"
-        cube_ptr:ptr_duration_to_close="300"
-        cube_ptr:ptr_duration_to_close_header="500"
-        cube_ptr:ptr_keep_header_when_refresh="true"
-        cube_ptr:ptr_pull_to_fresh="false" >
-
-        <RelativeLayout
-            android:background="@color/lanse"
-            android:layout_width="match_parent"
-            android:layout_height="100dp">
-            <ImageView
-                android:id="@+id/bear"
-                android:background="@color/qianbai"
-                android:layout_centerHorizontal="true"
-                android:layout_alignParentBottom="true"
-                android:layout_width="55dp"
-                android:layout_height="55dp"/>
-            <TextView
-                android:id="@+id/msg"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="下拉刷新"
-                android:textSize="@dimen/font_normal"
-                android:textColor="@color/qianbai"
-                android:layout_toRightOf="@id/bear"
-                android:paddingTop="20dp"
-                android:layout_alignTop="@id/bear"
-                android:layout_marginLeft="10dp"/>
-            <ImageView
-                android:id="@+id/cd"
-                android:background="@color/qianbai"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_toLeftOf="@id/bear"
-                android:layout_marginRight="10dp"/>
-        </RelativeLayout>
-
-        <ListView
+        android:layout_height="match_parent">
+        <com.baoyz.swipemenulistview.SwipeMenuListView
             android:id="@+id/courseList"
             android:divider="?android:attr/dividerVertical"
             android:showDividers="middle"
             android:dividerPadding="10dp"
             android:background="@color/qianbai"
-            android:dividerHeight="0dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-    </in.srain.cube.views.ptr.PtrFrameLayout>
-
+            android:layout_height="match_parent"
+            android:paddingRight="20dp"/>
+        <com.badprinter.sysu_course.customview.PinyinBar
+            android:id="@+id/pinyinBar"
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            pinyin:pinyinBackgroundColor="@color/qianbai"
+            pinyin:pinyinselectedColor="@color/qingse"/>
+        <TextView
+            android:id="@+id/selectorText"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="100dp"
+            android:gravity="center"
+            android:padding="20dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:alpha="0"
+            android:textColor="@color/qianbai"
+            android:textSize="@dimen/font_xlarge"
+            android:background="@drawable/round_bg"/>
+    </RelativeLayout>
 
 </LinearLayout>

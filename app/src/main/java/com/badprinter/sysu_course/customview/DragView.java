@@ -30,7 +30,7 @@ public class DragView extends View {
     int index = 0;
     boolean isDrag = false;
     float dragX = 0;
-    int sections = 2;
+    int sections = 3;
 
     public DragView(Context context) {
         this(context, null);

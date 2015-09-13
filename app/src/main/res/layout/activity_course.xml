@@ -8,12 +8,16 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@color/lanse"/>
+        android:background="@color/qianbai"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="4"
+        android:layout_weight="5"
         android:orientation="vertical">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#11000000"/>
         <com.badprinter.sysu_course.customview.MyFrameLayout
             android:layout_width="match_parent"
             android:layout_height="50dp">
@@ -47,6 +51,11 @@
                     android:text="可选"
                     android:textColor="@color/qianhui"
                     style="@style/tabStyle"/>
+                <RadioButton
+                    android:id="@+id/likeCourses"
+                    android:text="关注"
+                    android:textColor="@color/qianhui"
+                    style="@style/tabStyle"/>
 
             </RadioGroup>
         </com.badprinter.sysu_course.customview.MyFrameLayout>
@@ -54,7 +63,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/qianhui"/>
+            android:background="#11000000"/>
 
         <com.badprinter.sysu_course.customview.MyViewPager
             android:id="@+id/pager"

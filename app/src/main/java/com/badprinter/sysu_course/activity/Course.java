@@ -26,6 +26,7 @@ import com.badprinter.sysu_course.util.CourseInfo;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
 public class Course extends SwipeBackActivity {
@@ -33,16 +34,20 @@ public class Course extends SwipeBackActivity {
 
     private RadioButton myCourses;
     private RadioButton otherCourses;
+    private RadioButton likeCourses;
     private RadioGroup tabs;
     private DragView dragView;
     private MyViewPager pager;
     private CourseList myCourseFragment;
     private CourseList otherCourseFragment;
+    private CourseList likeCourseFragment;
     private List<com.badprinter.sysu_course.model.Course> myCourseList;
     private List<com.badprinter.sysu_course.model.Course> otherCourseList;
+    private List<com.badprinter.sysu_course.model.Course> likeCourseList;
     private CourseInfo courseInfo;
     private String cata;
     private String url;
+    private SweetAlertDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,25 +70,40 @@ public class Course extends SwipeBackActivity {
                 courseInfo = new CourseInfo();
                 courseInfo.onGetCourseInfo = new CourseInfo.OnGetCourseInfo() {
                     @Override
-                    public void onSucceed(List<com.badprinter.sysu_course.model.Course> myCourseList, List<com.badprinter.sysu_course.model.Course> otherCourseList) {
+                    public void onSucceed(List<com.badprinter.sysu_course.model.Course> myCourseList,
+                                          List<com.badprinter.sysu_course.model.Course> otherCourseList,
+                                          List<com.badprinter.sysu_course.model.Course> likeCourseList) {
                         Course.this.myCourseList = myCourseList;
                         Course.this.otherCourseList = otherCourseList;
+                        Course.this.likeCourseList = likeCourseList;
                         // Init Pager
                         initPager();
+                        dialog.cancel();
                     }
 
                     @Override
                     public void onFailed() {
+                        dialog.setTitleText("加载数据失败")
+                                .setContentText("请检查网络连接或者重新登陆")
+                                .changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                        dialog.show();
                         Toast.makeText(Course.this, "加载数据失败", Toast.LENGTH_SHORT);
                     }
                 };
-                courseInfo.execute(url);
+                // Show Dialog
+                dialog = new SweetAlertDialog(Course.this);
+                dialog.setTitleText("玩命加载数据")
+                        .changeAlertType(SweetAlertDialog.PROGRESS_TYPE);
+                dialog.show();
+
+                courseInfo.execute(url, cata);
             }
         });
     }
     private void findViewsById() {
         myCourses = (RadioButton)findViewById(R.id.myCourses);
         otherCourses = (RadioButton)findViewById(R.id.otherCourses);
+        likeCourses = (RadioButton)findViewById(R.id.likeCourses);
         tabs = (RadioGroup)findViewById(R.id.tabs);
         dragView = (DragView)findViewById(R.id.drag);
         pager = (MyViewPager)findViewById(R.id.pager);
@@ -102,6 +122,11 @@ public class Course extends SwipeBackActivity {
                         dragView.setAnimation(1);
                         pager.setCurrentItem(1, true);
                         setWhiteText(otherCourses, 1);
+                        break;
+                    case R.id.likeCourses:
+                        dragView.setAnimation(2);
+                        pager.setCurrentItem(2, true);
+                        setWhiteText(likeCourses, 2);
                 }
             }
         });
@@ -109,16 +134,19 @@ public class Course extends SwipeBackActivity {
     private void setWhiteText(RadioButton tab, int position) {
         otherCourses.setTextColor(getResources().getColor(R.color.qianhui));
         myCourses.setTextColor(getResources().getColor(R.color.qianhui));
+        likeCourses.setTextColor(getResources().getColor(R.color.qianhui));
 
         tab.setTextColor(getResources().getColor(R.color.qianbai));
     }
     private void initPager() {
         myCourseFragment = CourseList.newInstance(url, cata, myCourseList);
         otherCourseFragment = CourseList.newInstance(url, cata, otherCourseList);
+        likeCourseFragment = CourseList.newInstance(url, cata, likeCourseList);
 
         List<Fragment> list = new ArrayList<>();
         list.add(myCourseFragment);
         list.add(otherCourseFragment);
+        list.add(likeCourseFragment);
         pager.setAdapter(new MyPagerAdapter(getSupportFragmentManager(), list));
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -130,7 +158,7 @@ public class Course extends SwipeBackActivity {
             public void onPageSelected(int position) {
                 dragView.setAnimation(position);
                 tabs.check(position);
-                RadioButton[] tabs = {myCourses, otherCourses};
+                RadioButton[] tabs = {myCourses, otherCourses, likeCourses};
                 setWhiteText(tabs[position], position);
             }
 
@@ -156,23 +184,35 @@ public class Course extends SwipeBackActivity {
         public Fragment getItem(int arg0) {
             return fragmentList.get(arg0);
         }
-        @Override
+        /*@Override
         public void destroyItem (ViewGroup container, int position, Object object) {
             // Never Destroy Fragment for Preventing from Getting stuck!
             return;
-        }
+        }*/
     }
     public void updateCourseInfo() {
+        // Show dialog
+        dialog = new SweetAlertDialog(Course.this);
+        dialog.setTitleText("正在更新数据")
+                .changeAlertType(SweetAlertDialog.PROGRESS_TYPE);
+        dialog.show();
+
         if (courseInfo != null && !courseInfo.isCancelled())
             courseInfo.cancel(true);
         courseInfo = new CourseInfo();
         courseInfo.onGetCourseInfo = new CourseInfo.OnGetCourseInfo() {
             @Override
-            public void onSucceed(List<com.badprinter.sysu_course.model.Course> myCourseList, List<com.badprinter.sysu_course.model.Course> otherCourseList) {
+            public void onSucceed(List<com.badprinter.sysu_course.model.Course> myCourseList,
+                                  List<com.badprinter.sysu_course.model.Course> otherCourseList,
+                                  List<com.badprinter.sysu_course.model.Course> likeCourseList) {
                 Course.this.myCourseList = myCourseList;
                 Course.this.otherCourseList = otherCourseList;
+                Course.this.likeCourseList = likeCourseList;
+
                 myCourseFragment.updateListView(myCourseList);
                 otherCourseFragment.updateListView(otherCourseList);
+                likeCourseFragment.updateListView(likeCourseList);
+                dialog.cancel();
             }
 
             @Override

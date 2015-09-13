@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.badprinter.sysu_course.Common.GlobalData;
+import com.badprinter.sysu_course.db.DBManager;
 import com.badprinter.sysu_course.model.Course;
 import com.badprinter.sysu_course.model.CourseState;
 
@@ -15,6 +16,7 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -27,10 +29,11 @@ public class CourseInfo extends AsyncTask<String, Void, Boolean> {
     public OnGetCourseInfo onGetCourseInfo;
     private List<Course> myCourseList = new ArrayList<>();
     private List<Course> otherCourseList = new ArrayList<>();
+    private List<Course> likeCourseList = new ArrayList<>();
+    private DBManager dbMgr = new DBManager();
     @Override
     protected Boolean doInBackground(String... urls) {
         String url = urls[0];
-        Log.e(TAG, "url = " + url);
         Connection conn2 = Jsoup.connect(url);
         setHeader(conn2);
         try {
@@ -59,8 +62,12 @@ public class CourseInfo extends AsyncTask<String, Void, Boolean> {
     }
     @Override
     protected void onPostExecute(Boolean b) {
-        if (b)
-            onGetCourseInfo.onSucceed(myCourseList, otherCourseList);
+        if (b) {
+            sortCourseList(myCourseList);
+            sortCourseList(otherCourseList);
+            sortCourseList(likeCourseList);
+            onGetCourseInfo.onSucceed(myCourseList, otherCourseList, likeCourseList);
+        }
         else
             onGetCourseInfo.onFailed();
 
@@ -81,7 +88,7 @@ public class CourseInfo extends AsyncTask<String, Void, Boolean> {
                 .header("Referer", "http://uems.sysu.edu.cn/elect/index.html");
     }
     public interface OnGetCourseInfo {
-        void onSucceed(List<Course> myCourseList, List<Course> otherCourseList);
+        void onSucceed(List<Course> myCourseList, List<Course> otherCourseList, List<Course> likeCourseList);
         void onFailed();
     }
     private void analyseSeleted(Elements tds) {
@@ -108,6 +115,9 @@ public class CourseInfo extends AsyncTask<String, Void, Boolean> {
             }
             c.setBid(bid);
             c.setName(tds.get(2).getElementsByTag("a").get(0).text());
+            String pinyin = PinyinUtil.getPinYinFromHanYu(c.getName(), PinyinUtil.UPPER_CASE,
+                    PinyinUtil.WITH_TONE_NUMBER, PinyinUtil.WITH_V);
+            c.setPinyin(pinyin);
             c.setTimePlace(tds.get(3).text());
             c.setTeacher(tds.get(4).text());
             c.setCredit(tds.get(5).text());
@@ -116,6 +126,9 @@ public class CourseInfo extends AsyncTask<String, Void, Boolean> {
             c.setVacancyNum(tds.get(8).text());
             c.setRate(tds.get(9).text());
             myCourseList.add(c);
+            if (dbMgr.isLike(c)) {
+                likeCourseList.add(c);
+            }
         } catch (ArrayIndexOutOfBoundsException e) {
             e.printStackTrace();
         }
@@ -140,6 +153,9 @@ public class CourseInfo extends AsyncTask<String, Void, Boolean> {
             }
             c.setBid(bid);
             c.setName(tds.get(1).getElementsByTag("a").get(0).text());
+            String pinyin = PinyinUtil.getPinYinFromHanYu(c.getName(), PinyinUtil.UPPER_CASE,
+                    PinyinUtil.WITH_TONE_NUMBER, PinyinUtil.WITH_V);
+            c.setPinyin(pinyin);
             c.setTimePlace(tds.get(2).text());
             c.setTeacher(tds.get(3).text());
             c.setCredit(tds.get(4).text());
@@ -148,9 +164,19 @@ public class CourseInfo extends AsyncTask<String, Void, Boolean> {
             c.setVacancyNum(tds.get(7).text());
             c.setRate(tds.get(8).text());
             otherCourseList.add(c);
+            if (dbMgr.isLike(c)) {
+                likeCourseList.add(c);
+            }
             Log.e(TAG, "分析了一个");
         } catch (ArrayIndexOutOfBoundsException e) {
             e.printStackTrace();
         }
+    }
+
+    /*
+     * Sort a List By Pinyin
+     */
+    private void sortCourseList(List<Course> list) {
+        Collections.sort(list);
     }
 }

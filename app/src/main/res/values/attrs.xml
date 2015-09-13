@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!--DragView-->
     <declare-styleable name="DragView">
         <attr name="myBackgroundColor" format="color"></attr>
         <attr name="dragColor" format="color"></attr>
         <attr name="borderRadius" format="integer"></attr>
         <attr name="delayTime" format="integer"></attr>
     </declare-styleable>
+
+    <!--Pinyin Bar-->
+    <declare-styleable name="PinyinBar">
+        <attr name="pinyinBackgroundColor" format="color"/>
+        <attr name="pinyinselectedColor" format="color"/>
+    </declare-styleable>
+
 </resources>

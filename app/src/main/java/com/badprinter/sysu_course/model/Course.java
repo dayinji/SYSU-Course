@@ -1,9 +1,14 @@
 package com.badprinter.sysu_course.model;
 
+import android.util.Log;
+
 /**
  * Created by root on 15-9-12.
  */
-public class Course {
+public class Course implements Comparable<Course> {
+    private final String TAG = "COURSE";
+
+    private String pinyin;
     private String bid;
     private String name;
     private String teacher;
@@ -15,11 +20,12 @@ public class Course {
     private String rate;
     private CourseState state;
 
-    public Course(String bid, String name, String teacher, String timePlace,
+    public Course(String bid, String pinyin, String name, String teacher, String timePlace,
                   String credit, String allNum, String candidateNum,
                   String vacancyNum, String rate, CourseState state) {
 
         this.bid = bid;
+        this.pinyin = pinyin;
         this.name = name;
         this.teacher = teacher;
         this.timePlace = timePlace;
@@ -31,6 +37,30 @@ public class Course {
         this.state = state;
 
     }
+
+    public int compareTo(Course other) {
+        char[] otherPinyin = other.getPinyin().toCharArray();
+        char[] thisPinyin = pinyin.toCharArray();
+        int length = otherPinyin.length > thisPinyin.length ? thisPinyin.length : otherPinyin.length;
+        for (int i = 0 ; i < length ; i++) {
+            if (isLetter(thisPinyin[i]) && isLetter(otherPinyin[i]) ||
+                    !isLetter(thisPinyin[i]) && !isLetter(otherPinyin[i])) {
+                if (thisPinyin[i] < otherPinyin[i])
+                    return -1;
+                else if (thisPinyin[i] > otherPinyin[i])
+                    return 1;
+            } else  {
+                Log.e(TAG, "noLetter");
+                return isLetter(thisPinyin[i]) ? 1 : -1;
+            }
+        }
+        if (thisPinyin.length < otherPinyin.length)
+            return -1;
+        else if (thisPinyin.length > otherPinyin.length)
+            return 1;
+        return 0;
+    }
+
     public Course() {
 
     }
@@ -40,6 +70,14 @@ public class Course {
     }
     public void setBid(String bid) {
         this.bid = bid;
+    }
+
+
+    public String getPinyin() {
+        return pinyin;
+    }
+    public void setPinyin(String pinyin) {
+        this.pinyin = pinyin;
     }
 
     public String getName() {
@@ -103,6 +141,10 @@ public class Course {
     }
     public void setState(CourseState state) {
         this.state = state;
+    }
+
+    private boolean isLetter(char c) {
+        return (c >= 65 && c <= 90) || (c >= 97 && c <= 122);
     }
 
 }
