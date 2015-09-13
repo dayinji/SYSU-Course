@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="DragView">
+        <attr name="myBackgroundColor" format="color"></attr>
+        <attr name="dragColor" format="color"></attr>
+        <attr name="borderRadius" format="integer"></attr>
+        <attr name="delayTime" format="integer"></attr>
+    </declare-styleable>
+</resources>

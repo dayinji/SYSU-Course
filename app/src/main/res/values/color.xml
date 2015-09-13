@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="lanse">#ff54bbe4</color>
-    <color name="shenlan">#ff397e98</color>
+    <color name="shenlan">#ff439bbc</color>
+    <color name="qianhui">#ffc6c6c6</color>
+    <color name="shenhui">#ffaaaaaa</color>
     <color name="qianbai">#fff8f8f8</color>
+    <color name="qingse">#ff79bba4</color>
+    <color name="qianhong">#ffff8888</color>
+    <color name="shenhong">#ffe47575</color>
 
 </resources>

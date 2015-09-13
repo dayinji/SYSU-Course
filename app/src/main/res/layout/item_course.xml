@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="20dp"
+    android:paddingBottom="20dp"
+    android:gravity="center_vertical"
+    android:background="@color/qianbai">
+    <TextView
+        android:id="@+id/name"
+        android:textColor="@color/shenlan"
+        android:textSize="@dimen/font_big"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="10dp" />
+    <TextView
+        android:id="@+id/teacher"
+        android:textSize="@dimen/font_small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/name"
+        android:layout_alignLeft="@id/name"
+        android:layout_marginTop="3dp"/>
+    <TextView
+        android:id="@+id/credit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/font_small"
+        android:padding="5dp"
+        android:textColor="@color/qianbai"
+        android:layout_centerInParent="true"
+        android:background="@drawable/round_bt"/>
+    <Button
+        android:id="@+id/bt"
+        style="@style/MyButton"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:focusable="false"/>
+
+</RelativeLayout>

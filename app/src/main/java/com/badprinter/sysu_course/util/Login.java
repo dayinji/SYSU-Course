@@ -5,11 +5,16 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.badprinter.sysu_course.constant.AppContext;
 import com.badprinter.sysu_course.constant.Constants;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -28,7 +33,6 @@ public class Login extends AsyncTask<String, Void, Boolean> {
         String j_code = urls[0];
         Connection conn = Jsoup.connect(loginUrl);
         //conn.cookie("JSESSIONID", Constants.JSESSIONID);
-        Log.e(TAG, "JSESSIONID = " + Constants.JSESSIONID);
         conn.data(getData(j_code));
         setHeader(conn);
         // No Redirection
@@ -38,6 +42,7 @@ public class Login extends AsyncTask<String, Void, Boolean> {
             org.jsoup.Connection.Response rs = conn.response();
             if (rs.header("Location") != null) {
                 Constants.SID = rs.header("Location").replace("http://uems.sysu.edu.cn/elect/s/types?sid=", "");
+
                 return true;
             }
         } catch (IOException e) {

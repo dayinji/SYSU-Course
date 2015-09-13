@@ -1,6 +1,7 @@
 package com.badprinter.sysu_course.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import com.badprinter.sysu_course.R;
 import com.badprinter.sysu_course.constant.Constants;
 import com.badprinter.sysu_course.util.DownloadCode;
 import com.badprinter.sysu_course.util.Login;
+import com.beardedhen.androidbootstrap.BootstrapButton;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -53,6 +55,7 @@ public class Main extends ActionBarActivity {
         setListener();
         //getCodeImg();
     }
+
     private void findViewsById() {
         username = (EditText)findViewById(R.id.username);
         password = (EditText)findViewById(R.id.password);
@@ -60,6 +63,7 @@ public class Main extends ActionBarActivity {
         codeImg = (ImageView)findViewById(R.id.codeImg);
         code = (EditText)findViewById(R.id.code);
     }
+
     private void setListener() {
         okBt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,6 +81,7 @@ public class Main extends ActionBarActivity {
             }
         });
     }
+
     private void getPw(final String pw) {
         webView = new WebView(Main.this);
         webView.getSettings().setJavaScriptEnabled(true);
@@ -96,7 +101,9 @@ public class Main extends ActionBarActivity {
         login.onLoginResult = new Login.OnLoginResult() {
             @Override
             public void onSucceed() {
-                Toast.makeText(Main.this, "登录成功" + Constants.SID, Toast.LENGTH_SHORT).show();
+                Toast.makeText(Main.this, "登录成功", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Main.this, BasicInfo.class);
+                startActivity(intent);
             }
 
             @Override

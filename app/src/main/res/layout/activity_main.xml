@@ -1,5 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Main"
     android:background="@color/qianbai">
@@ -46,16 +47,12 @@
         android:layout_marginLeft="10dp"/>
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Login"
         android:id="@+id/okBt"
-        android:background="@drawable/round_bt"
+        android:text="Login"
         android:layout_below="@+id/codeImg"
         android:layout_marginTop="20dp"
-        android:textColor="@color/qianbai"
-        android:padding="10dp"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        style="@style/MyButton" />
 
 
 
