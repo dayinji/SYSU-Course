@@ -47,7 +47,6 @@ public class UnelectCourse extends AsyncTask<String, Void, Integer> {
             Log.e(TAG, "failed");
             return Constants.ERROR_MSG.length-1;
         }
-
     }
     @Override
     protected void onPostExecute(Integer code) {
