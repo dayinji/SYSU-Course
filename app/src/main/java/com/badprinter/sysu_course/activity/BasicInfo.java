@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.badprinter.sysu_course.Common.GlobalData;
 import com.badprinter.sysu_course.R;
+import com.badprinter.sysu_course.service.CourseService;
 import com.badprinter.sysu_course.util.CourseSummary;
 
 import java.util.Map;
@@ -56,6 +57,17 @@ public class BasicInfo extends ActionBarActivity implements View.OnClickListener
             }
         };
         courseSummary.execute();
+
+        //Init Service
+        Intent intentInitService = new Intent();
+        intentInitService.setAction("com.badprinter.sysucourse.service.CourseService");
+        startService(intentInitService);
+    }
+    @Override
+    public void onDestroy() {
+        Intent intent = new Intent(BasicInfo.this, CourseService.class);
+        stopService(intent);
+        super.onDestroy();
     }
     private void findViewsById() {
         gongxuanText = (TextView)findViewById(R.id.gongxuanText);

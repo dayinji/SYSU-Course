@@ -30,6 +30,13 @@
             android:name=".activity.Course"
             android:label="@string/title_activity_course" >
         </activity>
+
+        <service android:name=".service.CourseService" >
+            <intent-filter>
+                <action android:name="com.badprinter.sysucourse.service.CourseService" />
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>

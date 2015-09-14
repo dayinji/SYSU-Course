@@ -79,5 +79,56 @@ public class DBManager {
         return c;
     }
 
+    /*****************************
+     * Listened Table
+     ****************************/
+
+    /**
+     * Add a Course to Listened Table
+     */
+    public void addToListened(com.badprinter.sysu_course.model.Course course, String cata) {
+        if (isListened(course))
+            return;
+        db.beginTransaction();
+        try {
+            db.execSQL("INSERT INTO listenedcourses VALUES(null, ?, ?, ?, ?)",
+                    new Object[]{course.getBid(), cata, course.getName(), course.getTeacher()});
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+    }
+    /**
+     * Judge Whether a Course Is in Listened Table or Not
+     */
+    public boolean isListened(com.badprinter.sysu_course.model.Course course) {
+        String[] args = {course.getBid()};
+        Cursor c =  db.rawQuery("SELECT * " +
+                "FROM listenedcourses " +
+                "WHERE bid = ?",args);
+        if (c.getCount() == 0) {
+            c.close();
+            return false;
+        } else {
+            c.close();
+            return true;
+        }
+    }
+    /**
+     * Delete a Course from Listened Table
+     */
+    public void deleteFromListened(com.badprinter.sysu_course.model.Course course) {
+        if (!isListened(course))
+            return;
+        db.delete("listenedcourses", "bid=?", new String[]{course.getBid()});
+    }
+    /**
+     * Query A Cursor from Listened Table
+     */
+    public Cursor queryFromListened() {
+        Cursor c = db.rawQuery("SELECT * FROM listenedcourses", null);
+        return c;
+    }
+
 
 }

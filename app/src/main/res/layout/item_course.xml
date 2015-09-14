@@ -27,15 +27,27 @@
         </LinearLayout>
         <TextView
             android:id="@+id/credit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/font_small"
-            android:padding="5dp"
-            android:textColor="@color/qianbai"
+            style="@style/MarkStyle"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_marginRight="20dp"
-            android:background="@drawable/round_bt"/>
+            android:background="@drawable/round_bg_lanse"/>
+        <TextView
+            android:id="@+id/like"
+            style="@style/MarkStyle"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/credit"
+            android:text="关"
+            android:background="@drawable/round_bg_lanse"/>
+        <TextView
+            android:id="@+id/listen"
+            style="@style/MarkStyle"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/like"
+            android:text="监"
+            android:background="@drawable/round_bg_qianhong"/>
 
     </RelativeLayout>
 </LinearLayout>

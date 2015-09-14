@@ -54,7 +54,6 @@ public class ElectCourse extends AsyncTask<String, Void, Integer> {
     @Override
     protected void onPostExecute(Integer code) {
         onSelected.onFinished(code);
-
     }
     public interface OnSelected {
         void onFinished(Integer code);

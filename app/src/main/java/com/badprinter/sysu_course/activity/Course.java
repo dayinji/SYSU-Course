@@ -1,5 +1,9 @@
 package com.badprinter.sysu_course.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,6 +21,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.badprinter.sysu_course.Constant.Constants;
 import com.badprinter.sysu_course.R;
 import com.badprinter.sysu_course.customview.DragView;
 import com.badprinter.sysu_course.customview.MyViewPager;
@@ -49,10 +54,18 @@ public class Course extends SwipeBackActivity {
     private String url;
     private SweetAlertDialog dialog;
 
+    private CourseReceiver courseReceiver;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course);
+
+        // Register Recevier
+        courseReceiver = new CourseReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Constants.BoardAction.SUCCESSFUL_SELECTION);
+        registerReceiver(courseReceiver, filter);
 
         url = getIntent().getStringExtra("url");
         cata = getIntent().getStringExtra("cata");
@@ -86,8 +99,7 @@ public class Course extends SwipeBackActivity {
                         dialog.setTitleText("加载数据失败")
                                 .setContentText("请检查网络连接或者重新登陆")
                                 .changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                        dialog.show();
-                        Toast.makeText(Course.this, "加载数据失败", Toast.LENGTH_SHORT);
+                        //Toast.makeText(Course.this, "加载数据失败", Toast.LENGTH_SHORT);
                     }
                 };
                 // Show Dialog
@@ -100,6 +112,13 @@ public class Course extends SwipeBackActivity {
             }
         });
     }
+
+    @Override
+     public void onDestroy() {
+        unregisterReceiver(courseReceiver);
+        super.onDestroy();
+    }
+
     private void findViewsById() {
         myCourses = (RadioButton)findViewById(R.id.myCourses);
         otherCourses = (RadioButton)findViewById(R.id.otherCourses);
@@ -147,6 +166,8 @@ public class Course extends SwipeBackActivity {
         list.add(myCourseFragment);
         list.add(otherCourseFragment);
         list.add(likeCourseFragment);
+        // Load All Pages And Never Destroy Pages
+        pager.setOffscreenPageLimit(2);
         pager.setAdapter(new MyPagerAdapter(getSupportFragmentManager(), list));
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -217,9 +238,24 @@ public class Course extends SwipeBackActivity {
 
             @Override
             public void onFailed() {
-                Toast.makeText(Course.this, "加载数据失败", Toast.LENGTH_SHORT);
+                dialog.setTitleText("加载数据失败")
+                        .setContentText("请检查网络连接或者重新登陆")
+                        .changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                //Toast.makeText(Course.this, "加载数据失败", Toast.LENGTH_SHORT);
             }
         };
         courseInfo.execute(url);
     }
+    private class CourseReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            switch (intent.getAction()) {
+                case Constants.BoardAction.SUCCESSFUL_SELECTION:
+                    if (intent.getStringExtra("cata").equals(cata))
+                        updateCourseInfo();
+                    break;
+            }
+        }
+    }
+
 }

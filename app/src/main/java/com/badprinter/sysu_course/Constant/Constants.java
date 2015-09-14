@@ -32,4 +32,10 @@ public class Constants {
             "您的核心通识课学分已满足培养方案的学分要求，无法再选择核心通识课",
             "请求失败,请稍后重试或登陆电脑选课"
     };
+    public static class ListenerMsg {
+        public final static String UPDATE_LISTENED_COURSES = "com.badprinter.sysu_course.UPDATE_LISTENED_COURSES";
+    }
+    public static class BoardAction {
+        public final static String SUCCESSFUL_SELECTION = "com.badprinter.sysu_course.SUCCESSFUL_SELECTION";
+    }
 }

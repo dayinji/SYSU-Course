@@ -52,6 +52,8 @@ public class CourseAdapter extends BaseAdapter {
             holder.name = (TextView)convertView.findViewById(R.id.name);
             holder.teacher = (TextView)convertView.findViewById(R.id.teacher);
             holder.credit = (TextView)convertView.findViewById(R.id.credit);
+            holder.like = (TextView)convertView.findViewById(R.id.like);
+            holder.listen = (TextView)convertView.findViewById(R.id.listen);
             //holder.bt = (Button)convertView.findViewById(R.id.bt);
             convertView.setTag(holder);
         } else {
@@ -66,11 +68,21 @@ public class CourseAdapter extends BaseAdapter {
             c.setTeacher("(未知)");
         holder.teacher.setText(c.getTeacher());
         holder.credit.setText(c.getCredit());
+        if (!dbMgr.isLike(c)) {
+            holder.like.setVisibility(View.INVISIBLE);
+        } else {
+            holder.like.setVisibility(View.VISIBLE);
+        }
+        if (!dbMgr.isListened(c)) {
+            holder.listen.setVisibility(View.INVISIBLE);
+        } else {
+            holder.listen.setVisibility(View.VISIBLE);
+        }
         return convertView;
     }
     @Override
     public int getViewTypeCount() {
-        return 6;
+        return 12;
     }
 
     @Override
@@ -78,12 +90,13 @@ public class CourseAdapter extends BaseAdapter {
         Course c = courseList.get(position);
         int op;
         int islike = dbMgr.isLike(c) ? 1 : 0;
+        islike = dbMgr.isListened(c) ? 2 : islike;
         switch(c.getState()) {
             case CANNOTUNSELECT:
                 op = 0;
                 break;
             case CANNOTSELECT:
-                op = 0;
+                op = 3;
                 break;
             case CANSELECT:
                 op = 1;
@@ -98,13 +111,15 @@ public class CourseAdapter extends BaseAdapter {
                 op = 0;
                 break;
         }
-        return 3*islike+op;
+        return 4*islike+op;
     }
 
     private class Holder {
         public TextView name;
         public TextView teacher;
         public TextView credit;
+        public TextView like;
+        public TextView listen;
         //private Button bt;
     }
 

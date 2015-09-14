@@ -3,6 +3,7 @@ package com.badprinter.sysu_course.fragment;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -87,11 +88,20 @@ public class CourseList extends Fragment {
 
         return root;
     }
+
+    /**
+     * Find All Views
+     */
     private void findViewsById() {
         courseListView = (SwipeMenuListView)root.findViewById(R.id.courseList);
         pinyinBar = (PinyinBar)root.findViewById(R.id.pinyinBar);
         selectorText = (TextView)root.findViewById(R.id.selectorText);
     }
+
+    /**
+     * Init ElectCourse
+     * @param electCourse
+     */
     private void initElectCourse(ElectCourse electCourse) {
         electCourse.onSelected = new ElectCourse.OnSelected() {
             @Override
@@ -126,6 +136,11 @@ public class CourseList extends Fragment {
             }
         };
     }
+
+    /**
+     * Init UnelectCourse
+     * @param unelectCourse
+     */
     private void initUnelectCourse(UnelectCourse unelectCourse) {
         unelectCourse.onSelected = new UnelectCourse.OnSelected() {
             @Override
@@ -172,142 +187,11 @@ public class CourseList extends Fragment {
     public void setList(List<Course> list) {
         this.courseList = list;
     }
-    private void showSelectDialog(final Course c) {
-        if (dialog != null && dialog.isShowing())
-            dialog.cancel();
-        dialog = new SweetAlertDialog(getActivity());
-        dialog.setTitleText("选课")
-                .setContentText("确定要选择" + c.getName() + "这门课吗")
-                .setConfirmText("是的")
-                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sDialog) {
-                        sDialog
-                                .setTitleText("选课ing...")
-                                .setContentText("")
-                                .showCancelButton(false)
-                                .changeAlertType(SweetAlertDialog.PROGRESS_TYPE);
-                        if (electCourse != null && !electCourse.isCancelled())
-                            electCourse.cancel(true);
-                        electCourse = new ElectCourse();
-                        initElectCourse(electCourse);
-                        electCourse.execute(c.getBid(), cata);
-                    }
-                })
-                .setCancelText("取消")
-                .showCancelButton(true)
-                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sDialog) {
-                        sDialog.cancel();
-                    }
-                })
-                .show();
-    }
-    private void showUnselectDialog(final Course c) {
-        if (dialog != null && dialog.isShowing())
-            dialog.cancel();
-        dialog = new SweetAlertDialog(getActivity());
-        dialog.setTitleText("退课")
-                .setContentText("确定要退掉" + c.getName() + "这门课吗")
-                .setConfirmText("是的")
-                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sDialog) {
-                        sDialog
-                                .setTitleText("退课ing...")
-                                .showCancelButton(false)
-                                .setContentText("")
-                                .changeAlertType(SweetAlertDialog.PROGRESS_TYPE);
-                        if (unelectCourse != null && !unelectCourse.isCancelled())
-                            unelectCourse.cancel(true);
-                        unelectCourse = new UnelectCourse();
-                        initUnelectCourse(unelectCourse);
-                        unelectCourse.execute(c.getBid(), cata);
-                    }
-                })
-                .setCancelText("取消")
-                .showCancelButton(true)
-                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sDialog) {
-                        sDialog.cancel();
-                    }
-                })
-                .show();
-    }
-    private void showLikeDialog(final Course c) {
-        if (dialog != null && dialog.isShowing())
-            dialog.cancel();
-        dialog = new SweetAlertDialog(getActivity());
-        dialog.setTitleText("关注")
-                .setContentText("确定要关注" + c.getName() + "这门课吗")
-                .setConfirmText("是的")
-                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sDialog) {
-                        dbMgr.addToLike(c, cata);
-                        sDialog
-                                .setTitleText("关注成功")
-                                .showCancelButton(false)
-                                .setContentText("")
-                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                        ((com.badprinter.sysu_course.activity.Course)getActivity())
-                                                .updateCourseInfo();
-                                        dialog.cancel();
-                                    }
-                                })
-                                .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-                    }
-                })
-                .setCancelText("取消")
-                .showCancelButton(true)
-                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sDialog) {
-                        sDialog.cancel();
-                    }
-                })
-                .show();
-    }
-    private void showUnlikeDialog(final Course c) {
-        if (dialog != null && dialog.isShowing())
-            dialog.cancel();
-        dialog = new SweetAlertDialog(getActivity());
-        dialog.setTitleText("取消关注")
-                .setContentText("确定要取消关注" + c.getName() + "这门课吗")
-                .setConfirmText("是的")
-                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sDialog) {
-                        dbMgr.deleteFromLike(c);
-                        sDialog
-                                .setTitleText("取消关注成功")
-                                .showCancelButton(false)
-                                .setContentText("")
-                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                        ((com.badprinter.sysu_course.activity.Course)getActivity())
-                                                .updateCourseInfo();
-                                        dialog.cancel();
-                                    }
-                                })
-                                .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-                    }
-                })
-                .setCancelText("取消")
-                .showCancelButton(true)
-                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sDialog) {
-                        sDialog.cancel();
-                    }
-                })
-                .show();
-    }
+
+    /**
+     * Update ListView
+     * @param courseList
+     */
     public void updateListView(final List<Course> courseList) {
         this.courseList = courseList;
         adapter = new CourseAdapter(courseList);
@@ -350,8 +234,11 @@ public class CourseList extends Fragment {
             }
         });
     }
+
+    /**
+     * Init Pinyin Bar
+     */
     private void initPinyinBar() {
-        // Init fadeSelectorAnim
         fadeSelectorAnim = ObjectAnimator.ofFloat(selectorText, "alpha", 1f, 0f).setDuration(300);
         fadeSelectorAnim.setStartDelay(300);
 
@@ -377,13 +264,18 @@ public class CourseList extends Fragment {
             }
         };
     }
+
+    /**
+     * Init Menu
+     */
     private void initMenu() {
         SwipeMenuCreator creator = new SwipeMenuCreator() {
 
             @Override
             public void create(SwipeMenu menu) {
-                switch (menu.getViewType() % 3) {
+                switch (menu.getViewType() % 4) {
                     case 0:
+                    case 3 :
                         SwipeMenuItem opItem_0 = new SwipeMenuItem(
                                 getActivity());
                         opItem_0.setBackground(R.color.qianhui);
@@ -420,9 +312,9 @@ public class CourseList extends Fragment {
                 lineItem.setBackground(R.color.qianbai);
                 lineItem.setWidth(DisplayUtil.dp2px(1));
                 menu.addMenuItem(lineItem);
-                switch (menu.getViewType() / 3) {
+                switch (menu.getViewType() / 4) {
                     case 0 :
-                        // Unlike Button
+                        // like Button
                         SwipeMenuItem unlikeItem = new SwipeMenuItem(
                                 getActivity());
                         unlikeItem.setBackground(R.color.lanse);
@@ -433,7 +325,8 @@ public class CourseList extends Fragment {
                         menu.addMenuItem(unlikeItem);
                         break;
                     case 1 :
-                        // Like Button
+                    case 2 :
+                        // Unlike Button
                         SwipeMenuItem likeItem = new SwipeMenuItem(
                                 getActivity());
                         likeItem.setBackground(R.color.lanse);
@@ -442,6 +335,28 @@ public class CourseList extends Fragment {
                         likeItem.setTitleSize(16);
                         likeItem.setTitleColor(Color.WHITE);
                         menu.addMenuItem(likeItem);
+                      //  if (menu.getViewType() % 4 == 3) {
+                            // Just for
+                            SwipeMenuItem lineItem1 = new SwipeMenuItem(
+                                    getActivity());
+                            lineItem1.setBackground(R.color.qianbai);
+                            lineItem1.setWidth(DisplayUtil.dp2px(1));
+                            menu.addMenuItem(lineItem1);
+                            // Listener or Unlistened Button
+                            SwipeMenuItem listenItem = new SwipeMenuItem(
+                                    getActivity());
+                            listenItem.setWidth(DisplayUtil.dp2px(90));
+                            if (menu.getViewType() / 4 == 1) {
+                                listenItem.setTitle("监听");
+                                listenItem.setBackground(R.color.qianhong);
+                            } else if (menu.getViewType() / 4 == 2){
+                                listenItem.setTitle("取消监听");
+                                listenItem.setBackground(R.color.qianhong);
+                            }
+                            listenItem.setTitleSize(16);
+                            listenItem.setTitleColor(Color.WHITE);
+                            menu.addMenuItem(listenItem);
+                     //   }
                         break;
                 }
 
@@ -479,11 +394,282 @@ public class CourseList extends Fragment {
                         else
                             showUnlikeDialog(c);
                         break;
+                    case 4:
+                        switch(c.getState()) {
+                            case CANNOTUNSELECT:
+                                showCannotListenedDialog("本门课程已经选课成功,无需监听");
+                                break;
+                            case CANNOTSELECT:
+                                if (!dbMgr.isListened(c))
+                                    showListenedDialog(c);
+                                else
+                                    showUnlistenedDialog(c);
+                                break;
+                            case CANSELECT:
+                              //  showCannotListenedDialog("本门课程可以选择,无需监听");
+                                if (!dbMgr.isListened(c))
+                                    showListenedDialog(c);
+                                else
+                                    showUnlistenedDialog(c);
+                                break;
+                            case SELECTED:
+                                showCannotListenedDialog("本门课程已经选课成功,无需监听");
+                                break;
+                            case SUCCEED:
+                                showCannotListenedDialog("本门课程已经选课成功,无需监听");
+                                break;
+                        }
+                        break;
                 }
                 // false : close the menu; true : not close the menu
                 return false;
             }
         });
+    }
+
+
+    /***************************************
+     * The Codes Below Are All About Dialogs
+     **************************************/
+
+
+    /**
+     * Show A CannotListen Dialog
+     * @param msg
+     */
+    private void showCannotListenedDialog(String msg) {
+        if (dialog != null && dialog.isShowing())
+            dialog.cancel();
+        dialog = new SweetAlertDialog(getActivity());
+        dialog.setTitleText("无需监听")
+                .setContentText(msg)
+                .show();
+    }
+
+    /**
+     * Show A Listen Dialog
+     * @param course
+     */
+    private void showListenedDialog(final Course course) {
+        if (dialog != null && dialog.isShowing())
+            dialog.cancel();
+        dialog = new SweetAlertDialog(getActivity());
+        dialog.setTitleText("监听课程")
+                .setContentText("确定要监听" + course.getName() + "这门课吗")
+                .setConfirmText("是的")
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        dbMgr.addToListened(course, cata);
+                        sDialog
+                                .setTitleText("已加入监听队列")
+                                .showCancelButton(false)
+                                .setContentText("")
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        ((com.badprinter.sysu_course.activity.Course) getActivity())
+                                                .updateCourseInfo();
+                                        dialog.cancel();
+                                    }
+                                })
+                                .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                    }
+                })
+                .setCancelText("取消")
+                .showCancelButton(true)
+                .show();
+    }
+
+    /**
+     * Show An Unlistened Dialog
+     * @param course
+     */
+    private void showUnlistenedDialog(final Course course) {
+        if (dialog != null && dialog.isShowing())
+            dialog.cancel();
+        dialog = new SweetAlertDialog(getActivity());
+        dialog.setTitleText("取消监听")
+                .setContentText("确定要取消监听" + course.getName() + "这门课吗")
+                .setConfirmText("是的")
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        dbMgr.deleteFromListened(course);
+                        sDialog
+                                .setTitleText("取消监听成功")
+                                .showCancelButton(false)
+                                .setContentText("")
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        ((com.badprinter.sysu_course.activity.Course) getActivity())
+                                                .updateCourseInfo();
+                                        dialog.cancel();
+                                    }
+                                })
+                                .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                    }
+                })
+                .setCancelText("取消")
+                .showCancelButton(true)
+                .show();
+    }
+
+    /**
+     * Show A Select Dialog
+     * @param c
+     */
+    private void showSelectDialog(final Course c) {
+        if (dialog != null && dialog.isShowing())
+            dialog.cancel();
+        dialog = new SweetAlertDialog(getActivity());
+        dialog.setTitleText("选课")
+                .setContentText("确定要选择" + c.getName() + "这门课吗")
+                .setConfirmText("是的")
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        sDialog
+                                .setTitleText("选课ing...")
+                                .setContentText("")
+                                .showCancelButton(false)
+                                .changeAlertType(SweetAlertDialog.PROGRESS_TYPE);
+                        if (electCourse != null && !electCourse.isCancelled())
+                            electCourse.cancel(true);
+                        electCourse = new ElectCourse();
+                        initElectCourse(electCourse);
+                        electCourse.execute(c.getBid(), cata);
+                    }
+                })
+                .showCancelButton(true)
+                .show();
+    }
+
+    /**
+     * Show An Unselect Dialog
+     * @param c
+     */
+    private void showUnselectDialog(final Course c) {
+        if (dialog != null && dialog.isShowing())
+            dialog.cancel();
+        dialog = new SweetAlertDialog(getActivity());
+        dialog.setTitleText("退课")
+                .setContentText("确定要退掉" + c.getName() + "这门课吗")
+                .setConfirmText("是的")
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        sDialog
+                                .setTitleText("退课ing...")
+                                .showCancelButton(false)
+                                .setContentText("")
+                                .changeAlertType(SweetAlertDialog.PROGRESS_TYPE);
+                        if (unelectCourse != null && !unelectCourse.isCancelled())
+                            unelectCourse.cancel(true);
+                        unelectCourse = new UnelectCourse();
+                        initUnelectCourse(unelectCourse);
+                        unelectCourse.execute(c.getBid(), cata);
+                    }
+                })
+                .showCancelButton(true)
+                .show();
+    }
+
+    /**
+     * Show A Like Dialog
+     * @param c
+     */
+    private void showLikeDialog(final Course c) {
+        if (dialog != null && dialog.isShowing())
+            dialog.cancel();
+        dialog = new SweetAlertDialog(getActivity());
+        dialog.setTitleText("关注")
+                .setContentText("确定要关注" + c.getName() + "这门课吗")
+                .setConfirmText("是的")
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        dbMgr.addToLike(c, cata);
+                        sDialog
+                                .setTitleText("关注成功")
+                                .showCancelButton(false)
+                                .setContentText("")
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        ((com.badprinter.sysu_course.activity.Course) getActivity())
+                                                .updateCourseInfo();
+                                        dialog.cancel();
+                                    }
+                                })
+                                .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                    }
+                })
+                .showCancelButton(true)
+                .show();
+    }
+
+    /**
+     * Show An Unlike Dialog
+     * @param c
+     */
+    private void showUnlikeDialog(final Course c) {
+        if (dialog != null && dialog.isShowing())
+            dialog.cancel();
+        dialog = new SweetAlertDialog(getActivity());
+        dialog.setTitleText("取消关注")
+                .setContentText("确定要取消关注" + c.getName() + "这门课吗")
+                .setConfirmText("是的")
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        if (dbMgr.isListened(c)) {
+                            sDialog.setTitleText("警告")
+                                    .setContentText("此本课程正在监听,如取消关注,将移出监听队列,是否取消关注?")
+                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                        @Override
+                                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                            dbMgr.deleteFromLike(c);
+                                            dbMgr.deleteFromListened(c);
+                                            sweetAlertDialog
+                                                    .setTitleText("取消关注&取消监听成功")
+                                                    .showCancelButton(false)
+                                                    .setContentText("")
+                                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                        @Override
+                                                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                                            ((com.badprinter.sysu_course.activity.Course) getActivity())
+                                                                    .updateCourseInfo();
+                                                            dialog.cancel();
+                                                        }
+                                                    })
+                                                    .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                                        }
+                                    })
+                                    .showCancelButton(true)
+                                    .setCancelText("取消")
+                                    .changeAlertType(SweetAlertDialog.WARNING_TYPE);
+                        } else {
+                            dbMgr.deleteFromLike(c);
+                            sDialog
+                                    .setTitleText("取消关注成功")
+                                    .showCancelButton(false)
+                                    .setContentText("")
+                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                        @Override
+                                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                            ((com.badprinter.sysu_course.activity.Course) getActivity())
+                                                    .updateCourseInfo();
+                                            dialog.cancel();
+                                        }
+                                    })
+                                    .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                        }
+                    }
+                })
+                .showCancelButton(true)
+                .show();
     }
 
 }

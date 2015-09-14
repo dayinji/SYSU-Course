@@ -36,7 +36,7 @@
             android:alpha="0"
             android:textColor="@color/qianbai"
             android:textSize="@dimen/font_xlarge"
-            android:background="@drawable/round_bg"/>
+            android:background="@drawable/round_bg_qingse_touming"/>
     </RelativeLayout>
 
 </LinearLayout>
