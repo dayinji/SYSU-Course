@@ -51,10 +51,16 @@ public class DBManager {
      * Judge Whether a Course Is in Like Table or Not
      */
     public boolean isLike(com.badprinter.sysu_course.model.Course course) {
+        Cursor c;
         String[] args = {course.getBid()};
-        Cursor c =  db.rawQuery("SELECT * " +
-                "FROM likecourses " +
-                "WHERE bid = ?",args);
+        db.beginTransaction();
+        try {
+            c =  db.rawQuery("SELECT * " +
+                    "FROM likecourses " +
+                    "WHERE bid = ?",args);
+        } finally {
+            db.endTransaction();
+        }
         if (c.getCount() == 0) {
             c.close();
             return false;
@@ -69,13 +75,25 @@ public class DBManager {
     public void deleteFromLike(com.badprinter.sysu_course.model.Course course) {
         if (!isLike(course))
             return;
-        db.delete("likecourses", "bid=?", new String[]{course.getBid()});
+        db.beginTransaction();
+        try {
+            db.delete("likecourses", "bid=?", new String[]{course.getBid()});
+            db.setTransactionSuccessful();
+        }  finally {
+            db.endTransaction();
+        }
     }
     /**
      * Query A Cursor from Like Table
      */
     public Cursor queryFromLike() {
-        Cursor c = db.rawQuery("SELECT * FROM likecourses", null);
+        Cursor c;
+        db.beginTransaction();
+        try {
+            c = db.rawQuery("SELECT * FROM likecourses", null);
+        } finally {
+            db.endTransaction();
+        }
         return c;
     }
 
@@ -103,9 +121,15 @@ public class DBManager {
      */
     public boolean isListened(com.badprinter.sysu_course.model.Course course) {
         String[] args = {course.getBid()};
-        Cursor c =  db.rawQuery("SELECT * " +
-                "FROM listenedcourses " +
-                "WHERE bid = ?",args);
+        Cursor c;
+        db.beginTransaction();
+        try {
+            c =  db.rawQuery("SELECT * " +
+                    "FROM listenedcourses " +
+                    "WHERE bid = ?",args);
+        } finally {
+            db.endTransaction();
+        }
         if (c.getCount() == 0) {
             c.close();
             return false;
@@ -120,13 +144,25 @@ public class DBManager {
     public void deleteFromListened(com.badprinter.sysu_course.model.Course course) {
         if (!isListened(course))
             return;
-        db.delete("listenedcourses", "bid=?", new String[]{course.getBid()});
+        db.beginTransaction();
+        try {
+            db.delete("listenedcourses", "bid=?", new String[]{course.getBid()});
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
     }
     /**
      * Query A Cursor from Listened Table
      */
     public Cursor queryFromListened() {
-        Cursor c = db.rawQuery("SELECT * FROM listenedcourses", null);
+        Cursor c;
+        db.beginTransaction();
+        try {
+            c = db.rawQuery("SELECT * FROM listenedcourses", null);
+        } finally {
+            db.endTransaction();
+        }
         return c;
     }
 

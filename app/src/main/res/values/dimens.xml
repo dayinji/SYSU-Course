@@ -3,8 +3,8 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <dimen name="font_small">12dp</dimen>
-    <dimen name="font_normal">16dp</dimen>
-    <dimen name="font_big">20dp</dimen>
-    <dimen name="font_xlarge">30dp</dimen>
+    <dimen name="font_small">12sp</dimen>
+    <dimen name="font_normal">16sp</dimen>
+    <dimen name="font_big">20sp</dimen>
+    <dimen name="font_xlarge">30sp</dimen>
 </resources>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/qianbai"
+    android:padding="25dp">
+    <ImageView
+        android:id="@+id/codeImg"
+        android:layout_centerHorizontal="true"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:background="@color/qianhui"/>
+    <EditText
+        android:id="@+id/code"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/codeImg"
+        android:layout_marginTop="10dp"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_edittext_bg"
+        android:padding="5dp"/>
+
+    <Button
+        android:id="@+id/okBt"
+        android:layout_centerHorizontal="true"
+        android:text="登陆"
+        android:layout_below="@id/code"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/round_bt"
+        style="@style/MyButton" />
+
+</RelativeLayout>

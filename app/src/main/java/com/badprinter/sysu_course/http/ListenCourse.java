@@ -1,4 +1,4 @@
-package com.badprinter.sysu_course.util;
+package com.badprinter.sysu_course.http;
 
 import android.database.Cursor;
 import android.os.AsyncTask;
@@ -58,8 +58,6 @@ public class ListenCourse extends AsyncTask<String, Void, Boolean> {
             conn.cookie("JSESSIONID", GlobalData.JSESSIONID);
             conn.timeout(5000);
             try {
-                Log.e(TAG, "start linsten");
-                Log.e(TAG, "url = " + url);
                 conn.post();
                 Connection.Response rs = conn.response();
                 JSONObject jsonObject = new JSONObject(rs.body());
@@ -109,9 +107,6 @@ public class ListenCourse extends AsyncTask<String, Void, Boolean> {
         data.put("jxbh", bid);
         data.put("sid", GlobalData.SID);
 
-        for (String key : data.keySet()) {
-            Log.e(TAG, "key = " + key + ", value = " + data.get(key));
-        }
         return data;
     }
     public interface OnListenFinished {

@@ -1,5 +1,6 @@
-package com.badprinter.sysu_course.util;
+package com.badprinter.sysu_course.http;
 
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;

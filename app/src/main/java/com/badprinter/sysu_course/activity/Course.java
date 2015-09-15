@@ -4,29 +4,23 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import com.badprinter.sysu_course.Constant.Constants;
 import com.badprinter.sysu_course.R;
 import com.badprinter.sysu_course.customview.DragView;
 import com.badprinter.sysu_course.customview.MyViewPager;
 import com.badprinter.sysu_course.fragment.CourseList;
-import com.badprinter.sysu_course.util.CourseInfo;
+import com.badprinter.sysu_course.http.CourseInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +47,7 @@ public class Course extends SwipeBackActivity {
     private String cata;
     private String url;
     private SweetAlertDialog dialog;
+    private ImageView logo;
 
     private CourseReceiver courseReceiver;
 
@@ -75,11 +70,27 @@ public class Course extends SwipeBackActivity {
         // Init DragView
         dragView.setAnimation(0);
 
+        if (cata.equals("公选")) {
+            logo.setImageDrawable(getResources().getDrawable(R.drawable.gongxuan));
+        } else if (cata.equals("专选")) {
+            logo.setImageDrawable(getResources().getDrawable(R.drawable.zhuanxuan));
+        } else if (cata.equals("公必")) {
+            logo.setImageDrawable(getResources().getDrawable(R.drawable.gongbi));
+        } else if (cata.equals("专必")) {
+            logo.setImageDrawable(getResources().getDrawable(R.drawable.zhuanbi));
+        }
+
         ViewTreeObserver vto2 = dragView.getViewTreeObserver();
         vto2.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
                 dragView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+
+                logo.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                ViewGroup.LayoutParams lp = logo.getLayoutParams();
+                lp.width = logo.getMeasuredHeight()*50/34;
+                logo.setLayoutParams(lp);
+
                 courseInfo = new CourseInfo();
                 courseInfo.onGetCourseInfo = new CourseInfo.OnGetCourseInfo() {
                     @Override
@@ -97,7 +108,7 @@ public class Course extends SwipeBackActivity {
                     @Override
                     public void onFailed() {
                         dialog.setTitleText("加载数据失败")
-                                .setContentText("请检查网络连接或者重新登陆")
+                                .setContentText("当前不是选课阶段或账户失效请重新登陆")
                                 .changeAlertType(SweetAlertDialog.ERROR_TYPE);
                         //Toast.makeText(Course.this, "加载数据失败", Toast.LENGTH_SHORT);
                     }
@@ -126,6 +137,7 @@ public class Course extends SwipeBackActivity {
         tabs = (RadioGroup)findViewById(R.id.tabs);
         dragView = (DragView)findViewById(R.id.drag);
         pager = (MyViewPager)findViewById(R.id.pager);
+        logo = (ImageView)findViewById(R.id.logo);
     }
     private void setListener() {
         tabs.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {

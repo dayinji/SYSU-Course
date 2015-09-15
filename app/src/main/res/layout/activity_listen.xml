@@ -1,0 +1,55 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:logview="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/qianbai"
+    android:orientation="vertical"
+    tools:context="com.badprinter.sysu_course.activity.Listen">
+
+    <RelativeLayout
+        android:id="@+id/topLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/lanse">
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/logo_nobg"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="20dp"/>
+    <ToggleButton
+        android:id="@+id/listenToggle"
+        android:textColor="@color/qianbai"
+        android:textOn="监听"
+        android:textOff="监听"
+        android:background="@drawable/round_bt_warn"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4">
+    </FrameLayout>
+
+    <com.badprinter.sysu_course.customview.LogView
+        android:id="@+id/logView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_margin="10dp"
+
+        logview:logTextColor="@color/qianhui"
+        logview:logTextSize="12"/>
+
+</LinearLayout>

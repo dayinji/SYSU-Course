@@ -5,76 +5,132 @@
     tools:context="com.badprinter.sysu_course.activity.BasicInfo"
     android:background="@color/qianbai">
 
-    <ImageView
+    <RelativeLayout
+        android:id="@+id/topLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@color/lanse"/>
+        android:background="@color/lanse"
+        android:layout_marginBottom="30dp">
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/logo_nobg"
+            android:layout_centerHorizontal="true"/>
+
+    </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="5"
         android:orientation="vertical"
         android:gravity="center">
-        <TextView
-            android:id="@+id/gongxuanText"
-            android:text="公选 / 已选n门 / 已选学分n分"
-            android:layout_marginTop="30dp"
-            android:textSize="@dimen/font_small"
-            android:textColor="@color/qianhui"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <Button
-            android:id="@+id/gongxuanBt"
-            android:text="公选"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/round_bt"
-            style="@style/MyButton"/>
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/gongxuanText"
+                android:text="公选 / 已选n门 / 已选学分n分"
+                android:textSize="@dimen/font_small"
+                android:textColor="@color/qianhui"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/gongxuanBt"
+                android:text="公选"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/round_bt"
+                style="@style/MyButton"/>
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/zhuanxuanText"
-            android:text="专选 / 已选n门 / 已选学分n分"
-            android:layout_marginTop="30dp"
-            android:textSize="@dimen/font_small"
-            android:textColor="@color/qianhui"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <Button
-            android:id="@+id/zhuanxuanBt"
-            android:text="专选"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/round_bt"
-            style="@style/MyButton"/>
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/zhuanxuanText"
+                android:text="专选 / 已选n门 / 已选学分n分"
+                android:textSize="@dimen/font_small"
+                android:textColor="@color/qianhui"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/zhuanxuanBt"
+                android:text="专选"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/round_bt"
+                style="@style/MyButton"/>
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/gongbiText"
-            android:text="公必 / 已选n门 / 已选学分n分"
-            android:layout_marginTop="30dp"
-            android:textSize="@dimen/font_small"
-            android:textColor="@color/qianhui"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <Button
-            android:id="@+id/gongbiBt"
-            android:text="公必"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/round_bt"
-            style="@style/MyButton"/>
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/gongbiText"
+                android:text="公必 / 已选n门 / 已选学分n分"
+                android:textSize="@dimen/font_small"
+                android:textColor="@color/qianhui"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/gongbiBt"
+                android:text="公必"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/round_bt"
+                style="@style/MyButton"/>
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/zhuanbiText"
-            android:text="专必 / 已选n门 / 已选学分n分"
-            android:layout_marginTop="30dp"
-            android:textSize="@dimen/font_small"
-            android:textColor="@color/qianhui"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <Button
-            android:id="@+id/zhuanbiBt"
-            android:text="专必"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/round_bt"
-            style="@style/MyButton"/>
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/zhuanbiText"
+                android:text="专必 / 已选n门 / 已选学分n分"
+                android:textSize="@dimen/font_small"
+                android:textColor="@color/qianhui"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/zhuanbiBt"
+                android:text="专必"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/round_bt"
+                style="@style/MyButton"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/listenText"
+                android:text="监听 / 正在监听n门课程"
+                android:textSize="@dimen/font_small"
+                android:textColor="@color/qianhui"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/listenBt"
+                android:text="监听"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/round_bt_warn"
+                style="@style/MyButton"/>
+        </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>

@@ -2,23 +2,14 @@ package com.badprinter.sysu_course.fragment;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
-import android.app.Activity;
-import android.app.Dialog;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.LinearInterpolator;
 import android.widget.AdapterView;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.badprinter.sysu_course.Constant.Constants;
@@ -27,10 +18,9 @@ import com.badprinter.sysu_course.adapter.CourseAdapter;
 import com.badprinter.sysu_course.customview.PinyinBar;
 import com.badprinter.sysu_course.db.DBManager;
 import com.badprinter.sysu_course.model.Course;
-import com.badprinter.sysu_course.model.CourseState;
 import com.badprinter.sysu_course.util.DisplayUtil;
-import com.badprinter.sysu_course.util.ElectCourse;
-import com.badprinter.sysu_course.util.UnelectCourse;
+import com.badprinter.sysu_course.http.ElectCourse;
+import com.badprinter.sysu_course.http.UnelectCourse;
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
@@ -115,8 +105,7 @@ public class CourseList extends Fragment {
                                 @Override
                                 public void onClick(SweetAlertDialog sweetAlertDialog) {
                                     // Update ListView
-                                    ((com.badprinter.sysu_course.activity.Course)getActivity())
-                                        .updateCourseInfo();
+                                    updateCourses();
                                     dialog.cancel();
                                 }
                             })
@@ -155,8 +144,7 @@ public class CourseList extends Fragment {
                                 @Override
                                 public void onClick(SweetAlertDialog sweetAlertDialog) {
                                     // Update ListView
-                                    ((com.badprinter.sysu_course.activity.Course)getActivity())
-                                            .updateCourseInfo();
+                                    updateCourses();
                                     dialog.cancel();
                                 }
                             })
@@ -225,7 +213,6 @@ public class CourseList extends Fragment {
                         "课容量: " + c.getAllNum() + "\n" +
                         "待筛选: " + c.getCandidateNum() + "\n" +
                         "空位: " + c.getVacancyNum() + "\n" +
-                        "选中率: " + c.getRate() + "\n" +
                         "时间地点: " + c.getTimePlace();
                 new SweetAlertDialog(getActivity())
                         .setTitleText(c.getName())
@@ -335,7 +322,7 @@ public class CourseList extends Fragment {
                         likeItem.setTitleSize(16);
                         likeItem.setTitleColor(Color.WHITE);
                         menu.addMenuItem(likeItem);
-                      //  if (menu.getViewType() % 4 == 3) {
+                        if (menu.getViewType() % 4 == 3) {
                             // Just for
                             SwipeMenuItem lineItem1 = new SwipeMenuItem(
                                     getActivity());
@@ -356,7 +343,7 @@ public class CourseList extends Fragment {
                             listenItem.setTitleSize(16);
                             listenItem.setTitleColor(Color.WHITE);
                             menu.addMenuItem(listenItem);
-                     //   }
+                        }
                         break;
                 }
 
@@ -406,11 +393,11 @@ public class CourseList extends Fragment {
                                     showUnlistenedDialog(c);
                                 break;
                             case CANSELECT:
-                              //  showCannotListenedDialog("本门课程可以选择,无需监听");
-                                if (!dbMgr.isListened(c))
+                                showCannotListenedDialog("本门课程可以选择,无需监听");
+                                /*if (!dbMgr.isListened(c))
                                     showListenedDialog(c);
                                 else
-                                    showUnlistenedDialog(c);
+                                    showUnlistenedDialog(c);*/
                                 break;
                             case SELECTED:
                                 showCannotListenedDialog("本门课程已经选课成功,无需监听");
@@ -425,6 +412,16 @@ public class CourseList extends Fragment {
                 return false;
             }
         });
+    }
+    private void updateCourses() {
+        if (getActivity().getLocalClassName().equals("activity.Course")) {
+            ((com.badprinter.sysu_course.activity.Course) getActivity())
+                    .updateCourseInfo();
+        } else if (getActivity().getLocalClassName().equals("activity.Listen")) {
+            ((com.badprinter.sysu_course.activity.Listen) getActivity())
+                    .updateCourseInfo();
+        }
+        Log.e(TAG, "class name of activity : " + getActivity().getLocalClassName());
     }
 
 
@@ -468,8 +465,7 @@ public class CourseList extends Fragment {
                                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
                                     public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                        ((com.badprinter.sysu_course.activity.Course) getActivity())
-                                                .updateCourseInfo();
+                                        updateCourses();
                                         dialog.cancel();
                                     }
                                 })
@@ -503,8 +499,7 @@ public class CourseList extends Fragment {
                                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
                                     public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                        ((com.badprinter.sysu_course.activity.Course) getActivity())
-                                                .updateCourseInfo();
+                                        updateCourses();
                                         dialog.cancel();
                                     }
                                 })
@@ -598,8 +593,7 @@ public class CourseList extends Fragment {
                                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
                                     public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                        ((com.badprinter.sysu_course.activity.Course) getActivity())
-                                                .updateCourseInfo();
+                                        updateCourses();
                                         dialog.cancel();
                                     }
                                 })
@@ -619,6 +613,8 @@ public class CourseList extends Fragment {
             dialog.cancel();
         dialog = new SweetAlertDialog(getActivity());
         dialog.setTitleText("取消关注")
+                .showCancelButton(true)
+                .setCancelText("取消")
                 .setContentText("确定要取消关注" + c.getName() + "这门课吗")
                 .setConfirmText("是的")
                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -639,8 +635,7 @@ public class CourseList extends Fragment {
                                                     .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                                         @Override
                                                         public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                                            ((com.badprinter.sysu_course.activity.Course) getActivity())
-                                                                    .updateCourseInfo();
+                                                            updateCourses();
                                                             dialog.cancel();
                                                         }
                                                     })
@@ -659,8 +654,7 @@ public class CourseList extends Fragment {
                                     .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                         @Override
                                         public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                            ((com.badprinter.sysu_course.activity.Course) getActivity())
-                                                    .updateCourseInfo();
+                                            updateCourses();
                                             dialog.cancel();
                                         }
                                     })
@@ -668,7 +662,6 @@ public class CourseList extends Fragment {
                         }
                     }
                 })
-                .showCancelButton(true)
                 .show();
     }
 

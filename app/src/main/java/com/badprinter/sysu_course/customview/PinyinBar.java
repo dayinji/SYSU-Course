@@ -162,7 +162,6 @@ public class PinyinBar extends View {
         else if (y < 0)
             y = 0;
         selectorY = y;
-        Log.e(TAG, "selectorY/cellHeight = " + selectorY / cellHeight);
         int c =Math.round(selectorY / cellHeight);
         c = c >= 27 ? 26 : c;
         if (c != current) {

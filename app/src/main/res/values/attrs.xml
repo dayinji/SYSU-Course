@@ -15,4 +15,10 @@
         <attr name="pinyinselectedColor" format="color"/>
     </declare-styleable>
 
+    <!--LogView-->
+    <declare-styleable name="LogView">
+        <attr name="logTextColor" format="color"/>
+        <attr name="logTextSize" format="integer"/>
+    </declare-styleable>
+
 </resources>

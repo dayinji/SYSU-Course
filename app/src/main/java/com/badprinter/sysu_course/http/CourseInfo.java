@@ -1,4 +1,4 @@
-package com.badprinter.sysu_course.util;
+package com.badprinter.sysu_course.http;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -7,6 +7,7 @@ import com.badprinter.sysu_course.Common.GlobalData;
 import com.badprinter.sysu_course.db.DBManager;
 import com.badprinter.sysu_course.model.Course;
 import com.badprinter.sysu_course.model.CourseState;
+import com.badprinter.sysu_course.util.PinyinUtil;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -39,7 +40,6 @@ public class CourseInfo extends AsyncTask<String, Void, Boolean> {
         try {
            // conn2.maxBodySize(200000);
             Document doc = conn2.get();
-            Log.e(TAG, "doc = " + doc.toString());
             // MyCourses
             Element electedTable = doc.getElementById("elected");
             Elements trs = electedTable.getElementsByTag("tr");
@@ -167,7 +167,6 @@ public class CourseInfo extends AsyncTask<String, Void, Boolean> {
             if (dbMgr.isLike(c)) {
                 likeCourseList.add(c);
             }
-            Log.e(TAG, "分析了一个");
         } catch (ArrayIndexOutOfBoundsException e) {
             e.printStackTrace();
         }

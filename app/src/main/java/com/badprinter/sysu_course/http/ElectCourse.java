@@ -1,11 +1,13 @@
-package com.badprinter.sysu_course.util;
+package com.badprinter.sysu_course.http;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.ListView;
 
 import com.badprinter.sysu_course.Common.GlobalData;
 import com.badprinter.sysu_course.Constant.Constants;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -16,9 +18,9 @@ import java.util.Map;
 /**
  * Created by root on 15-9-13.
  */
-public class UnelectCourse extends AsyncTask<String, Void, Integer> {
+public class ElectCourse extends AsyncTask<String, Void, Integer> {
     private final String TAG = "ElectCourse";
-    private String url = "http://uems.sysu.edu.cn/elect/s/unelect";
+    private String url = "http://uems.sysu.edu.cn/elect/s/elect";
     private String bid;
     private String cata;
 
@@ -47,11 +49,11 @@ public class UnelectCourse extends AsyncTask<String, Void, Integer> {
             Log.e(TAG, "failed");
             return Constants.ERROR_MSG.length-1;
         }
+
     }
     @Override
     protected void onPostExecute(Integer code) {
         onSelected.onFinished(code);
-
     }
     public interface OnSelected {
         void onFinished(Integer code);

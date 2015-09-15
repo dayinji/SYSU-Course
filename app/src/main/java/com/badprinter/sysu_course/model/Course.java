@@ -50,7 +50,6 @@ public class Course implements Comparable<Course> {
                 else if (thisPinyin[i] > otherPinyin[i])
                     return 1;
             } else  {
-                Log.e(TAG, "noLetter");
                 return isLetter(thisPinyin[i]) ? 1 : -1;
             }
         }

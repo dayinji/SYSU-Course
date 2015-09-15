@@ -8,52 +8,50 @@
 
     <EditText
         android:id="@+id/username"
-        android:layout_width="wrap_content"
+        android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:ems="10"
+        android:background="@drawable/round_edittext_bg"
         android:hint="学号"
+        android:padding="5dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="99dp" />
 
     <EditText
         android:id="@+id/password"
-        android:layout_width="wrap_content"
+        android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:ems="10"
         android:hint="密码"
+        android:padding="5dp"
         android:layout_marginTop="10dp"
+        android:background="@drawable/round_edittext_bg"
         android:layout_below="@+id/username"
         android:layout_alignLeft="@+id/username"
         android:layout_alignStart="@+id/username" />
 
-    <ImageView
-        android:id="@+id/codeImg"
-        android:layout_below="@+id/password"
-        android:layout_marginTop="10dp"
-        android:layout_width="80dp"
-        android:layout_height="30dp"
-        android:background="#ffffffff"
-        android:layout_alignLeft="@id/password"/>
-    <EditText
-        android:id="@+id/code"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/codeImg"
-        android:layout_alignRight="@id/password"
-        android:layout_alignBottom="@id/codeImg"
-        android:layout_marginLeft="10dp"/>
-
     <Button
         android:id="@+id/okBt"
-        android:text="Login"
-        android:layout_below="@+id/codeImg"
+        android:text="OK"
+        android:layout_below="@+id/password"
         android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
         android:background="@drawable/round_bt"
         style="@style/MyButton" />
+
+    <TextView
+        android:text=" @中大抢客 "
+        android:textColor="@color/qianhui"
+        android:textSize="@dimen/font_normal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="50dp"
+        android:scaleType="centerInside"/>
 
 
 
