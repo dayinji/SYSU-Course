@@ -45,6 +45,10 @@
             android:name=".activity.MyCourses"
             android:label="@string/title_activity_my_courses" >
         </activity>
+        <activity
+            android:name=".activity.SafeExchange"
+            android:label="@string/title_activity_safe_exchange" >
+        </activity>
     </application>
 
 </manifest>

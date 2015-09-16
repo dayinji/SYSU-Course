@@ -19,6 +19,7 @@ public class Course implements Comparable<Course> {
     private String vacancyNum;
     private String rate;
     private CourseState state;
+    private String cata;
 
     public Course(String bid, String pinyin, String name, String teacher, String timePlace,
                   String credit, String allNum, String candidateNum,
@@ -140,6 +141,13 @@ public class Course implements Comparable<Course> {
     }
     public void setState(CourseState state) {
         this.state = state;
+    }
+
+    public String getCata() {
+        return cata;
+    }
+    public void setCata(String cata) {
+        this.cata = cata;
     }
 
     private boolean isLetter(char c) {

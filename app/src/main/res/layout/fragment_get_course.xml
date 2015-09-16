@@ -1,0 +1,59 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.badprinter.sysu_course.fragment.GetCourseFragment">
+
+    <LinearLayout
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:id="@+id/linearLayout">
+        <EditText
+            android:id="@+id/bidEt"
+            android:background="@drawable/round_edittext_bg"
+            android:padding="10dp"
+            android:hint="对方提供的课程号"
+            android:textSize="@dimen/font_xlarge"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"/>
+        <RadioGroup
+            android:id="@+id/cataGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/lanse"
+                android:checked="true"
+
+                android:text="公选"
+                android:id="@+id/gongxuanBt" />
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/lanse"
+                android:text="专选"
+                android:id="@+id/zhuanxuanBt" />
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/lanse"
+                android:text="公必"
+                android:id="@+id/gongbiBt" />
+
+        </RadioGroup>
+        <Button
+            android:id="@+id/okBt"
+            style="@style/MyButton"
+            android:text="确定"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/round_bt" />
+
+    </LinearLayout>
+
+</RelativeLayout>

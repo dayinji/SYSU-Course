@@ -18,6 +18,15 @@
             android:layout_height="match_parent"
             android:src="@drawable/logo_nobg"
             android:layout_centerHorizontal="true"/>
+        <Button
+            android:id="@+id/huankeBt"
+            android:text="安全换课"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/round_bg_shenlan"
+            style="@style/MyButton"/>
 
     </RelativeLayout>
     <LinearLayout

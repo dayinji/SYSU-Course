@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,7 @@ public class BasicInfo extends ActionBarActivity implements View.OnClickListener
     private Button listenBt;
     private ImageView logo;
     private SweetAlertDialog dialog;
+    private Button huankeBt;
 
     private CourseSummary courseSummary;
     private DBManager dbMgr;
@@ -103,6 +105,11 @@ public class BasicInfo extends ActionBarActivity implements View.OnClickListener
         intentInitService.putExtra("msg", Constants.ListenerMsg.INIT_SERVICE);
         intentInitService.setAction("com.badprinter.sysucourse.service.CourseService");
         startService(intentInitService);
+
+
+        //test
+        Log.e(TAG, "j = " + GlobalData.JSESSIONID);
+        Log.e(TAG, "sid = " + GlobalData.SID);
     }
     @Override
     public void onResume() {
@@ -174,6 +181,7 @@ public class BasicInfo extends ActionBarActivity implements View.OnClickListener
         zhuanxuanBt = (Button)findViewById(R.id.zhuanxuanBt);
         listenBt = (Button)findViewById(R.id.listenBt);
         logo = (ImageView)findViewById(R.id.logo);
+        huankeBt = (Button)findViewById(R.id.huankeBt);
     }
     private void setListener() {
         zhuanbiBt.setOnClickListener(this);
@@ -181,6 +189,7 @@ public class BasicInfo extends ActionBarActivity implements View.OnClickListener
         gongbiBt.setOnClickListener(this);
         zhuanxuanBt.setOnClickListener(this);
         listenBt.setOnClickListener(this);
+        huankeBt.setOnClickListener(this);
     }
     @Override
     public void onClick(View view) {
@@ -201,6 +210,10 @@ public class BasicInfo extends ActionBarActivity implements View.OnClickListener
             case R.id.listenBt:
                 Intent intent = new Intent(BasicInfo.this, Listen.class);
                 startActivity(intent);
+                break;
+            case R.id.huankeBt:
+                Intent intent1 = new Intent(BasicInfo.this, SafeExchange.class);
+                startActivity(intent1);
                 break;
         }
     }

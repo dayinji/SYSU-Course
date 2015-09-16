@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ListView;
 
+import com.badprinter.sysu_course.Common.AppContext;
 import com.badprinter.sysu_course.Common.GlobalData;
 import com.badprinter.sysu_course.Constant.Constants;
 
@@ -37,7 +38,9 @@ public class ElectCourse extends AsyncTask<String, Void, Integer> {
         try {
             Log.e(TAG, "start connect");
             conn.timeout(5000);
+            System.out.println("before:" + System.currentTimeMillis());
             conn.post();
+            System.out.println("after:" + System.currentTimeMillis());
             Connection.Response rs = conn.response();
             JSONObject jsonObject = new JSONObject(rs.body());
             JSONObject jsonObject1 = jsonObject.getJSONObject("err");

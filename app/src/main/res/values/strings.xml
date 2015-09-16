@@ -10,4 +10,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_listen">Listen</string>
     <string name="title_activity_my_courses">MyCourses</string>
+    <string name="title_activity_safe_exchange">SafeExchange</string>
 </resources>
