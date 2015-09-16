@@ -3,6 +3,7 @@ package com.badprinter.sysu_course.activity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -10,7 +11,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 
 import com.badprinter.sysu_course.Common.AppContext;
@@ -19,6 +23,7 @@ import com.badprinter.sysu_course.customview.MyViewPager;
 import com.badprinter.sysu_course.fragment.CourseList;
 import com.badprinter.sysu_course.fragment.GetCourseFragment;
 import com.badprinter.sysu_course.fragment.GiveCourseFragment;
+import com.badprinter.sysu_course.http.CourseInfoByBids;
 import com.badprinter.sysu_course.http.GivenCourse;
 import com.badprinter.sysu_course.model.*;
 import com.badprinter.sysu_course.model.Course;
@@ -39,6 +44,7 @@ public class SafeExchange extends SwipeBackActivity implements View.OnClickListe
     private GetCourseFragment getCourseFragment;
     private GivenCourse givenCourse;
     private SweetAlertDialog dialog;
+    private ImageView logo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +78,20 @@ public class SafeExchange extends SwipeBackActivity implements View.OnClickListe
         dialog.show();
         givenCourse.execute();
 
+        ViewTreeObserver vto2 = logo.getViewTreeObserver();
+        vto2.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                logo.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+
+                // Reset Logo Size
+                logo.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                ViewGroup.LayoutParams lp = logo.getLayoutParams();
+                lp.width = logo.getMeasuredHeight() * 50 / 34;
+                logo.setLayoutParams(lp);
+            }
+        });
+
     }
 
     private void findViewsById() {
@@ -82,6 +102,7 @@ public class SafeExchange extends SwipeBackActivity implements View.OnClickListe
         geikeBt.setOnClickListener(this);
         qukeBt.setOnClickListener(this);
         pager = (MyViewPager)findViewById(R.id.pager);
+        logo = (ImageView)findViewById(R.id.logo);
     }
     @Override
     public void onClick(View view) {

@@ -39,7 +39,7 @@ public class CourseService extends Service {
     private Timer timer;
     //private Handler handler;
     // Every 60s
-    private int duration = 30 * 1000;
+    private int duration = 15 * 1000;
     private ListenCourse listenCourse;
     private DBManager dbMgr;
     private NotificationManager nm;

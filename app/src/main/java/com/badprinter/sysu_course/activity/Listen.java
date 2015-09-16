@@ -124,32 +124,6 @@ public class Listen extends SwipeBackActivity {
             }
         });
 
-        /*listenToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    Log.e(TAG, "change");
-                    SharedPreferences.Editor editor = sharedPref.edit();
-                    editor.putInt(Constants.Preferences.PREFERENCES_LISTEN, 1);
-                    editor.commit();
-                    Intent intent = new Intent();
-                    intent.setAction("com.badprinter.sysucourse.service.CourseService");
-                    intent.putExtra("msg", Constants.ListenerMsg.OPEN_LISTEN);
-                    startService(intent); listenToggle.setBackgroundDrawable(ContextCompat.getDrawable(Listen.this, R.drawable.round_bt_warn));
-                } else {
-                    Log.e(TAG, "change");
-                    SharedPreferences.Editor editor = sharedPref.edit();
-                    editor.putInt(Constants.Preferences.PREFERENCES_LISTEN, 0);
-                    editor.commit();
-                    Intent intent = new Intent();
-                    intent.setAction("com.badprinter.sysucourse.service.CourseService");
-                    intent.putExtra("msg", Constants.ListenerMsg.CLOSE_LISTEN);
-                    startService(intent);
-                    listenToggle.setBackgroundDrawable(ContextCompat.getDrawable(Listen.this, R.drawable.round_bt_default));
-                }
-            }
-        });*/
-
         logView.updateLog();
 
         // Register LogReceiver
