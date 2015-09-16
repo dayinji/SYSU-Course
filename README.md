@@ -1,4 +1,6 @@
 # SYSU-Course
+![dayinji](http://7kttjt.com1.z0.glb.clouddn.com/image/view/app_icons/36bc80226f6a61e363229836da2fa8f7/120)
+
 中大刷客
 
 ####基本功能
@@ -9,6 +11,9 @@
 5. 搜索课程
 6. 实时监课程并自动选课(**仅在Wifi下可使用**)
 7. 安全换课功能(**仅在Wifi下可使用**)
+
+####App使用: 扫描下载
+![sysu-course](http://static.pgyer.com/app/qrcode/sysuqk)
 
 ####在这里找到我
 - 微信公众号
